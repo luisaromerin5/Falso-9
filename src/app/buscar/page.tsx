@@ -7,6 +7,7 @@ import { getTeamTrophies } from "@/lib/trophies";
 
 export default function BuscarPage() {
   const [query, setQuery] = useState("");
+  const [yearFilter, setYearFilter] = useState("");
   const [partidos, setPartidos] = useState<Partido[]>([]);
   const [competiciones, setCompeticiones] = useState<Competicion[]>([]);
   const [equipos, setEquipos] = useState<Equipo[]>([]);
@@ -27,7 +28,7 @@ export default function BuscarPage() {
   }, []);
 
   useEffect(() => {
-    if (query.length < 2) {
+    if (query.length < 2 && !yearFilter) {
       setPartidos([]);
       return;
     }
@@ -35,32 +36,43 @@ export default function BuscarPage() {
     // Support "equipo año" format (e.g. "Barcelona 2023")
     const yearMatch = query.match(/(.+?)\s+(\d{4})$/);
     let q = query.toLowerCase();
-    let yearFilter: string | null = null;
+    let yearFromQuery: string | null = null;
 
     if (yearMatch) {
       q = yearMatch[1].trim().toLowerCase();
-      yearFilter = yearMatch[2];
+      yearFromQuery = yearMatch[2];
     }
 
-    let filtered = allPartidos.filter(
-      (p) =>
-        p.equipo_local?.toLowerCase().includes(q) ||
-        p.equipo_visitante?.toLowerCase().includes(q) ||
-        p.competicion?.toLowerCase().includes(q)
-    );
+    // Use dropdown year filter, or year from query text
+    const activeYear = yearFilter || yearFromQuery;
 
-    if (yearFilter) {
-      filtered = filtered.filter((p) => p.fecha?.startsWith(yearFilter!));
+    let filtered = allPartidos;
+
+    if (q.length >= 2) {
+      filtered = filtered.filter(
+        (p) =>
+          p.equipo_local?.toLowerCase().includes(q) ||
+          p.equipo_visitante?.toLowerCase().includes(q) ||
+          p.competicion?.toLowerCase().includes(q)
+      );
     }
 
-    setPartidos(filtered.slice(0, 20));
+    if (activeYear) {
+      filtered = filtered.filter((p) => p.fecha?.startsWith(activeYear));
+    }
+
+    setPartidos(filtered.slice(0, 30));
 
     // Also find matching teams
-    const teamMatches = equipos.filter((e) =>
-      e.nombre.toLowerCase().includes(q)
-    ).slice(0, 5);
-    setMatchingTeams(teamMatches);
-  }, [query, allPartidos, equipos]);
+    if (q.length >= 2) {
+      const teamMatches = equipos.filter((e) =>
+        e.nombre.toLowerCase().includes(q)
+      ).slice(0, 5);
+      setMatchingTeams(teamMatches);
+    } else {
+      setMatchingTeams([]);
+    }
+  }, [query, yearFilter, allPartidos, equipos]);
 
   return (
     <div className="py-4">
@@ -69,15 +81,25 @@ export default function BuscarPage() {
       </header>
 
       {/* Search input */}
-      <div className="mb-4">
+      <div className="mb-4 space-y-2">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar equipo, competición... (ej: Barcelona 2023)"
-          className="w-full bg-gray-800 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-green-500 focus:outline-none text-sm"
+          placeholder="Buscar equipo, competición..."
+          className="w-full bg-gray-800 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-orange-500 focus:outline-none text-sm"
           autoFocus
         />
+        <select
+          value={yearFilter}
+          onChange={(e) => setYearFilter(e.target.value)}
+          className="w-full bg-gray-800 border border-gray-600 rounded-xl px-4 py-2.5 text-white text-sm focus:border-orange-500 focus:outline-none"
+        >
+          <option value="">Todos los años</option>
+          {Array.from({ length: 17 }, (_, i) => 2026 - i).map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
       </div>
 
       {/* Quick filters by competition */}
