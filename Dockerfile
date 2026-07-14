@@ -16,6 +16,8 @@ RUN apk add --no-cache libstdc++
 
 WORKDIR /app
 ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/.next ./.next
@@ -26,4 +28,4 @@ COPY --from=builder /app/src ./src
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npx", "next", "start", "-H", "0.0.0.0", "-p", "3000"]
