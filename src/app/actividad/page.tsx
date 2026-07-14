@@ -332,17 +332,19 @@ export default function AmigosPage() {
             <div className="space-y-2">
               {compañeros.map((f) => (
                 <div key={f.id} className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3">
-                  {f.avatar_url ? (
-                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
-                      {f.username.charAt(0).toUpperCase()}
+                  <Link href={`/usuario/${f.username}`} className="flex items-center gap-3 flex-1 min-w-0">
+                    {f.avatar_url ? (
+                      <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                        {f.username.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white font-medium truncate">@{f.username}</p>
+                      <p className="text-[9px] text-green-400">Compañero</p>
                     </div>
-                  )}
-                  <div className="flex-1">
-                    <p className="text-sm text-white font-medium">@{f.username}</p>
-                    <p className="text-[9px] text-green-400">Compañero</p>
-                  </div>
+                  </Link>
                   <button onClick={() => { if(confirm("¿Estás seguro de eliminar a @" + f.username + " como compañero?")) removeFriend(f.username); }} className="text-[10px] text-red-400">Eliminar</button>
                 </div>
               ))}
@@ -396,17 +398,19 @@ export default function AmigosPage() {
             <div className="space-y-2">
               {seguidos.map((f) => (
                 <div key={f.id} className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3">
-                  {f.avatar_url ? (
-                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
-                      {f.username.charAt(0).toUpperCase()}
+                  <Link href={`/usuario/${f.username}`} className="flex items-center gap-3 flex-1 min-w-0">
+                    {f.avatar_url ? (
+                      <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                        {f.username.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white font-medium truncate">@{f.username}</p>
+                      <p className="text-[9px] text-blue-400">Siguiendo</p>
                     </div>
-                  )}
-                  <div className="flex-1">
-                    <p className="text-sm text-white font-medium">@{f.username}</p>
-                    <p className="text-[9px] text-blue-400">Siguiendo</p>
-                  </div>
+                  </Link>
                   <button onClick={() => { if(confirm("¿Dejar de seguir a @" + f.username + "?")) unfollowUser(f.username); }} className="text-[10px] text-red-400">Dejar de seguir</button>
                 </div>
               ))}
