@@ -30,6 +30,7 @@ export default function PartidosListPage() {
             topLeagues.has(p.competicion) || (p.competicion === "Premier League" && p.competicion_pais === "England")
           );
         }
+        // "recientes" shows all matches (already sorted by date desc)
         setPartidos(filtered);
         setLoading(false);
       });

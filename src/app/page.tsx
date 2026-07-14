@@ -195,7 +195,7 @@ export default function Home() {
       )}
 
       {/* Recent matches */}
-      <HorizontalScroll title="Recientes">
+      <HorizontalScroll title="Recientes" seeAllHref="/partidos?cat=recientes">
         {recent.map((p) => (
           <PartidoPoster key={p.id} partido={p} />
         ))}
