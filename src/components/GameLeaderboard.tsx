@@ -14,44 +14,49 @@ interface ScoreEntry {
 interface GameLeaderboardProps {
   game: string;
   currentScore?: number;
-  onScoreSaved?: () => void;
 }
 
-export default function GameLeaderboard({ game, currentScore, onScoreSaved }: GameLeaderboardProps) {
+export default function GameLeaderboard({ game, currentScore }: GameLeaderboardProps) {
   const { user } = useAuth();
   const [scores, setScores] = useState<ScoreEntry[]>([]);
   const [bestScore, setBestScore] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     if (!user) { setLoading(false); return; }
 
-    // Save current score if provided
-    if (currentScore !== undefined && currentScore > 0) {
-      fetch("/api/game-scores", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ game, score: currentScore }),
-      }).then(() => {
-        fetchScores();
-        onScoreSaved?.();
-      });
-    } else {
-      fetchScores();
-    }
-  }, [user, currentScore]);
+    const doWork = async () => {
+      // Save current score if provided and > 0
+      if (currentScore !== undefined && currentScore > 0 && !saved) {
+        try {
+          await fetch("/api/game-scores", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ game, score: currentScore }),
+          });
+          setSaved(true);
+        } catch {}
+      }
 
-  const fetchScores = () => {
-    fetch(`/api/game-scores?game=${game}`)
-      .then((r) => r.json())
-      .then((data) => {
-        setScores(data.scores || []);
-        setBestScore(data.bestScore || 0);
-        setLoading(false);
-      });
-  };
+      // Fetch leaderboard
+      try {
+        const res = await fetch(`/api/game-scores?game=${game}`);
+        if (res.ok) {
+          const data = await res.json();
+          setScores(data.scores || []);
+          setBestScore(data.bestScore || 0);
+        }
+      } catch {}
 
-  if (!user || loading) return null;
+      setLoading(false);
+    };
+
+    doWork();
+  }, [user]);
+
+  if (!user) return null;
+  if (loading) return <div className="bg-gray-800 rounded-xl p-4 border border-gray-700 mt-4 text-center"><p className="text-xs text-gray-400">Cargando leaderboard...</p></div>;
   if (scores.length === 0 && !currentScore) return null;
 
   return (
