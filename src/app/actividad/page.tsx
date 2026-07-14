@@ -40,7 +40,7 @@ export default function AmigosPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Array<Friend & { isFriend: boolean; isFollowing: boolean; isPending: boolean }>>([]);
   const [pendingReceived, setPendingReceived] = useState<Friend[]>([]);
-  const [activeTab, setActiveTab] = useState<"feed" | "compañeros" | "seguidos">("feed");
+  const [activeTab, setActiveTab] = useState<"feed" | "compañeros" | "seguidos" | "pendientes">("feed");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -199,6 +199,17 @@ export default function AmigosPage() {
         >
           Seguidos ({seguidos.length})
         </button>
+        {pendingReceived.length > 0 && (
+          <button
+            onClick={() => setActiveTab("pendientes")}
+            className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors relative ${
+              activeTab === "pendientes" ? "bg-orange-500 text-white" : "text-yellow-400"
+            }`}
+          >
+            Pendientes
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">{pendingReceived.length}</span>
+          </button>
+        )}
       </div>
 
       {/* Feed tab */}
@@ -311,30 +322,6 @@ export default function AmigosPage() {
             </div>
           )}
 
-          {/* Pending requests received */}
-          {pendingReceived.length > 0 && (
-            <div className="mb-4">
-              <p className="text-[10px] text-yellow-400 uppercase mb-2">Solicitudes pendientes ({pendingReceived.length})</p>
-              <div className="space-y-2">
-                {pendingReceived.map((f) => (
-                  <div key={f.id} className="bg-yellow-900/10 rounded-lg p-3 border border-yellow-700/50 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: f.avatar_color }}>
-                      {f.username.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm text-white font-medium">@{f.username}</p>
-                      <p className="text-[9px] text-yellow-400">Quiere ser tu compañero</p>
-                    </div>
-                    <div className="flex gap-1">
-                      <button onClick={() => acceptCompanero(f.username)} className="text-[9px] text-white bg-green-600 px-2 py-1 rounded font-medium">Aceptar</button>
-                      <button onClick={() => rejectCompanero(f.username)} className="text-[9px] text-red-400 px-2 py-1 rounded">Rechazar</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           <p className="text-[10px] text-gray-400 uppercase mb-2">Tus compañeros ({compañeros.length})</p>
           {compañeros.length === 0 ? (
             <div className="text-center py-6 text-gray-400">
@@ -421,6 +408,40 @@ export default function AmigosPage() {
                     <p className="text-[9px] text-blue-400">Siguiendo</p>
                   </div>
                   <button onClick={() => unfollowUser(f.username)} className="text-[10px] text-red-400">Dejar de seguir</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Pendientes tab */}
+      {activeTab === "pendientes" && (
+        <div>
+          <p className="text-[10px] text-gray-400 uppercase mb-3">Solicitudes de compañero ({pendingReceived.length})</p>
+          {pendingReceived.length === 0 ? (
+            <div className="text-center py-8 text-gray-400">
+              <p className="text-sm">No tienes solicitudes pendientes</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {pendingReceived.map((f) => (
+                <div key={f.id} className="bg-gray-800 rounded-lg p-4 border border-yellow-700/50 flex items-center gap-3">
+                  {f.avatar_url ? (
+                    <img src={f.avatar_url} alt="" className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-white font-medium truncate">@{f.username}</p>
+                    <p className="text-[10px] text-yellow-400">Quiere ser tu compañero</p>
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button onClick={() => acceptCompanero(f.username)} className="text-xs text-white bg-green-600 px-3 py-1.5 rounded font-medium">Aceptar</button>
+                    <button onClick={() => rejectCompanero(f.username)} className="text-xs text-red-400 bg-red-900/30 px-3 py-1.5 rounded">Rechazar</button>
+                  </div>
                 </div>
               ))}
             </div>
