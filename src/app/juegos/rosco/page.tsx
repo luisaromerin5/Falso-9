@@ -193,12 +193,6 @@ export default function RoscoPage() {
             {correctCount} correctas • {wrongCount} incorrectas • {26 - correctCount - wrongCount} sin responder
           </p>
           {correctCount === 26 && <p className="text-sm text-yellow-400 mt-2 font-bold">ROSCO PERFECTO!</p>}
-          <button
-            onClick={() => { setGameState("ready"); const s = new Map<string, LetterState>(); questions.forEach(q => s.set(q.letter, "pending")); setStates(s); }}
-            className="mt-3 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-6 rounded-xl text-sm"
-          >
-            Jugar de nuevo
-          </button>
         </div>
       )}
 
@@ -220,6 +214,12 @@ export default function RoscoPage() {
             );
           })}
         </div>
+        <button
+          onClick={() => { setGameState("ready"); const s = new Map<string, LetterState>(); questions.forEach(q => s.set(q.letter, "pending")); setStates(s); }}
+          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-sm"
+        >
+          Jugar otra vez
+        </button>
         </>
       )}
     </div>

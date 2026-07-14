@@ -144,10 +144,11 @@ export default function AdivinaQuienPage() {
             <p className="text-sm text-green-400 mt-2">Lo adivinaste con {10 - questionsLeft} preguntas</p>
           )}
           <button onClick={startNewGame} className="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl text-sm">
-            Jugar de nuevo
+            Jugar otra vez
           </button>
-          <GameLeaderboard game="adivina-quien" currentScore={gameState === "won" ? (10 - questionsLeft) * 10 + guessAttempts * 5 : 0} />
         </div>
+
+        <GameLeaderboard game="adivina-quien" currentScore={gameState === "won" ? (10 - questionsLeft) * 10 + guessAttempts * 5 : 0} />
       )}
 
       {/* Game area */}

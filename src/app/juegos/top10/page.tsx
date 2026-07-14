@@ -195,6 +195,13 @@ export default function Top10Page() {
         </div>
 
         <GameLeaderboard game="top10" currentScore={score} />
+
+        <button
+          onClick={() => { setFinished(false); setGuessed(new Map()); setScore(0); setHintUsed(new Set()); setMessage(""); }}
+          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-sm"
+        >
+          Jugar otra vez
+        </button>
       </>
       )}
     </div>

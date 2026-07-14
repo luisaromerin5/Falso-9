@@ -167,16 +167,19 @@ export default function StopPage() {
         <div className={`bg-gray-800 rounded-xl p-4 border ${allCorrect ? "border-green-500" : "border-red-500"} text-center`}>
           <p className="text-xl font-bold text-white mb-1">{allCorrect ? "Ganaste!" : "Perdiste"}</p>
           <p className="text-sm text-gray-400">{correctCount}/8 correctas</p>
-          <button
-            onClick={startGame}
-            className="mt-3 bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-6 rounded-xl text-sm"
-          >
-            Jugar de nuevo
-          </button>
         </div>
       )}
 
       {gameState === "done" && <GameLeaderboard game="stop" currentScore={correctCount * 10} />}
+
+      {gameState === "done" && (
+        <button
+          onClick={startGame}
+          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-sm"
+        >
+          Jugar otra vez
+        </button>
+      )}
     </div>
   );
 }
