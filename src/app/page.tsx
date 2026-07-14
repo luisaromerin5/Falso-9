@@ -99,9 +99,19 @@ export default function Home() {
     }
 
     Promise.all(promises).then(([allMatches, ranked, feed]) => {
-      setRecent(allMatches.slice(0, 15));
-      const byVotes = [...allMatches].sort((a: Partido, b: Partido) => (b.total_votos || 0) - (a.total_votos || 0));
-      setPopular(byVotes.slice(0, 15));
+      // Top leagues for "Popular esta semana"
+      const topLeagues = [
+        "La Liga", "Premier League", "Serie A", "Bundesliga", "Ligue 1",
+        "UEFA Champions League", "CONMEBOL Libertadores", "World Cup",
+        "Euro Championship", "Copa America"
+      ];
+
+      const topLeagueMatches = allMatches.filter((p: Partido) =>
+        topLeagues.some((league) => p.competicion?.includes(league))
+      );
+
+      setRecent(topLeagueMatches.slice(0, 15));
+      setPopular(topLeagueMatches.slice(0, 15));
       setTopRated(ranked.slice(0, 15));
       if (feed && Array.isArray(feed)) setFriendsActivity(feed.slice(0, 10));
       setLoading(false);
