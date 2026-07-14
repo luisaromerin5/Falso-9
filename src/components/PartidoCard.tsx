@@ -14,7 +14,7 @@ export default function PartidoCard({ partido }: PartidoCardProps) {
 
   return (
     <Link href={`/partido/${partido.id}`}>
-      <div className="relative bg-gray-800 rounded-xl p-4 border border-gray-700 hover:border-green-500 transition-all active:scale-[0.98] overflow-hidden">
+      <div className="relative bg-gray-800 rounded-xl p-4 border border-gray-700 hover:border-orange-500 transition-all active:scale-[0.98] overflow-hidden">
         {/* Background logos */}
         {partido.logo_local && (
           <img
@@ -35,7 +35,7 @@ export default function PartidoCard({ partido }: PartidoCardProps) {
         <div className="relative z-10">
           {/* Competición y fecha */}
           <div className="flex justify-between items-center mb-3">
-            <span className="text-xs font-medium text-green-400 bg-green-900/30 px-2 py-0.5 rounded">
+            <span className="text-xs font-medium text-orange-400 bg-orange-900/30 px-2 py-0.5 rounded">
               {compFlag} {partido.competicion || "Amistoso"}
             </span>
             <span className="text-xs text-gray-400">

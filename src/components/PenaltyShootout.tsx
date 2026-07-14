@@ -37,7 +37,7 @@ export default function PenaltyShootout({ events, homeTeam, awayTeam }: PenaltyS
   return (
     <div className="bg-gray-800 rounded-xl p-4 border border-yellow-700/50 mb-4">
       <h3 className="text-xs font-bold text-yellow-400 mb-3">Tanda de penales ({homeScore}-{awayScore})</h3>
-      <p className="text-[10px] text-green-400 mb-3">Ganador: {winner}</p>
+      <p className="text-[10px] text-orange-400 mb-3">Ganador: {winner}</p>
 
       <div className="grid grid-cols-2 gap-4">
         {/* Home team */}
@@ -48,7 +48,7 @@ export default function PenaltyShootout({ events, homeTeam, awayTeam }: PenaltyS
               .filter((e) => e.team.name === homeTeam)
               .map((e, i) => (
                 <div key={i} className="flex items-center gap-1.5">
-                  <span className={`text-sm ${e.detail === "Penalty" ? "text-green-400" : "text-red-400"}`}>
+                  <span className={`text-sm ${e.detail === "Penalty" ? "text-orange-400" : "text-red-400"}`}>
                     {e.detail === "Penalty" ? "✓" : "✗"}
                   </span>
                   <span className="text-[11px] text-white">{e.player.name}</span>
@@ -65,7 +65,7 @@ export default function PenaltyShootout({ events, homeTeam, awayTeam }: PenaltyS
               .filter((e) => e.team.name === awayTeam)
               .map((e, i) => (
                 <div key={i} className="flex items-center gap-1.5">
-                  <span className={`text-sm ${e.detail === "Penalty" ? "text-green-400" : "text-red-400"}`}>
+                  <span className={`text-sm ${e.detail === "Penalty" ? "text-orange-400" : "text-red-400"}`}>
                     {e.detail === "Penalty" ? "✓" : "✗"}
                   </span>
                   <span className="text-[11px] text-white">{e.player.name}</span>

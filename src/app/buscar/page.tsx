@@ -140,7 +140,7 @@ export default function BuscarPage() {
               const totalTrophies = trophies ? trophies.reduce((sum, t) => sum + t.count, 0) : 0;
               return (
                 <Link key={team.id} href={`/equipo/${team.id}`}>
-                  <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 hover:border-green-500 transition-all mb-2">
+                  <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 hover:border-orange-500 transition-all mb-2">
                     <div className="flex items-center gap-3">
                       {team.logo_url ? (
                         <img src={team.logo_url} alt="" className="w-8 h-8" />
@@ -199,7 +199,7 @@ export default function BuscarPage() {
                   <p className="text-[10px] text-gray-400">{p.competicion} • {p.fecha}</p>
                 </div>
                 {p.promedio_general && p.promedio_general > 0 && (
-                  <span className="text-xs font-bold text-green-400">{Number(p.promedio_general).toFixed(1)}</span>
+                  <span className="text-xs font-bold text-orange-400">{Number(p.promedio_general).toFixed(1)}</span>
                 )}
               </div>
             </Link>

@@ -72,7 +72,7 @@ export default function RatingForm({ partidoId, onSuccess }: RatingFormProps) {
           <p className="text-gray-400 text-sm mb-3">Inicia sesión para dejar tu review</p>
           <a
             href="/perfil"
-            className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-5 rounded-lg transition-colors text-sm"
+            className="inline-block bg-orange-500 hover:bg-green-700 text-white font-bold py-2.5 px-5 rounded-lg transition-colors text-sm"
           >
             Iniciar sesión
           </a>
@@ -89,7 +89,7 @@ export default function RatingForm({ partidoId, onSuccess }: RatingFormProps) {
         >
           {user.username.charAt(0).toUpperCase()}
         </div>
-        <span className="text-sm text-gray-300">Publicando como <span className="text-green-400 font-medium">@{user.username}</span></span>
+        <span className="text-sm text-gray-300">Publicando como <span className="text-orange-400 font-medium">@{user.username}</span></span>
       </div>
 
       {/* Calificaciones */}
@@ -108,7 +108,7 @@ export default function RatingForm({ partidoId, onSuccess }: RatingFormProps) {
           onChange={(e) => setComentario(e.target.value)}
           placeholder="¿Qué te pareció el partido?"
           rows={3}
-          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-green-500 focus:outline-none resize-none"
+          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-orange-500 focus:outline-none resize-none"
         />
       </div>
 
@@ -117,7 +117,7 @@ export default function RatingForm({ partidoId, onSuccess }: RatingFormProps) {
       )}
 
       {success && (
-        <p className="text-green-400 text-sm mb-3 bg-green-900/20 p-2 rounded">
+        <p className="text-orange-400 text-sm mb-3 bg-orange-900/20 p-2 rounded">
           ✅ ¡Calificación guardada! Gracias por votar.
         </p>
       )}
@@ -125,7 +125,7 @@ export default function RatingForm({ partidoId, onSuccess }: RatingFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-bold py-3 rounded-lg transition-colors active:scale-[0.98]"
+        className="w-full bg-orange-500 hover:bg-green-700 disabled:bg-gray-600 text-white font-bold py-3 rounded-lg transition-colors active:scale-[0.98]"
       >
         {loading ? "Enviando..." : "Enviar calificación"}
       </button>

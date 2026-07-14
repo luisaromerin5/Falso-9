@@ -43,7 +43,7 @@ export default function EquipoDetallePage() {
   if (loading || !data) {
     return (
       <div className="flex justify-center py-16">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -52,7 +52,7 @@ export default function EquipoDetallePage() {
 
   return (
     <div className="py-4">
-      <Link href="/equipos" className="text-green-400 text-sm mb-4 inline-block">← Equipos</Link>
+      <Link href="/equipos" className="text-orange-400 text-sm mb-4 inline-block">← Equipos</Link>
 
       {/* Team header */}
       <div className="bg-gray-800 rounded-xl p-5 border border-gray-700 mb-4">
@@ -125,7 +125,7 @@ export default function EquipoDetallePage() {
           <p className="text-[8px] text-gray-400">Partidos</p>
         </div>
         <div className="bg-gray-800 rounded-lg p-2.5 text-center border border-gray-700">
-          <p className="text-lg font-bold text-green-400">{stats.wins}</p>
+          <p className="text-lg font-bold text-orange-400">{stats.wins}</p>
           <p className="text-[8px] text-gray-400">Victorias</p>
         </div>
         <div className="bg-gray-800 rounded-lg p-2.5 text-center border border-gray-700">
@@ -151,7 +151,7 @@ export default function EquipoDetallePage() {
           </div>
           <div className="flex justify-between">
             <span className="text-xs text-gray-400">Diferencia</span>
-            <span className={`text-xs font-medium ${stats.goalDifference >= 0 ? "text-green-400" : "text-red-400"}`}>
+            <span className={`text-xs font-medium ${stats.goalDifference >= 0 ? "text-orange-400" : "text-red-400"}`}>
               {stats.goalDifference > 0 ? "+" : ""}{stats.goalDifference}
             </span>
           </div>
@@ -162,7 +162,7 @@ export default function EquipoDetallePage() {
         </div>
         {/* Win rate bar */}
         <div className="mt-3 flex h-2 rounded-full overflow-hidden">
-          <div className="bg-green-500" style={{ width: `${stats.winRate}%` }} />
+          <div className="bg-orange-500" style={{ width: `${stats.winRate}%` }} />
           <div className="bg-yellow-500" style={{ width: `${stats.matches > 0 ? (stats.draws / stats.matches) * 100 : 0}%` }} />
           <div className="bg-red-500" style={{ width: `${stats.matches > 0 ? (stats.losses / stats.matches) * 100 : 0}%` }} />
         </div>
@@ -178,7 +178,7 @@ export default function EquipoDetallePage() {
         <button
           onClick={() => setActiveTab("overview")}
           className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "overview" ? "bg-green-600 text-white" : "text-gray-400"
+            activeTab === "overview" ? "bg-orange-500 text-white" : "text-gray-400"
           }`}
         >
           Partidos
@@ -186,7 +186,7 @@ export default function EquipoDetallePage() {
         <button
           onClick={loadSquad}
           className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "squad" ? "bg-green-600 text-white" : "text-gray-400"
+            activeTab === "squad" ? "bg-orange-500 text-white" : "text-gray-400"
           }`}
         >
           Plantilla
@@ -211,7 +211,7 @@ export default function EquipoDetallePage() {
                   <p className="text-[9px] text-gray-400">{p.competicion} • {p.fecha}</p>
                 </div>
                 {p.promedio_general > 0 && (
-                  <span className="text-xs font-bold text-green-400">{Number(p.promedio_general).toFixed(1)}</span>
+                  <span className="text-xs font-bold text-orange-400">{Number(p.promedio_general).toFixed(1)}</span>
                 )}
               </div>
             </Link>
@@ -224,7 +224,7 @@ export default function EquipoDetallePage() {
         <div>
           {!data.squad || data.squad.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500 mx-auto mb-3"></div>
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500 mx-auto mb-3"></div>
               <p className="text-sm">Cargando plantilla...</p>
             </div>
           ) : (

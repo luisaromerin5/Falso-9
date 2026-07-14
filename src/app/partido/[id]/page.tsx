@@ -64,8 +64,8 @@ function DiaryActions({ partidoId }: { partidoId: number }) {
           onClick={markWatched}
           className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${
             watched
-              ? "bg-green-600 border-green-600 text-white"
-              : "bg-gray-800 border-gray-700 text-gray-300 hover:border-green-500"
+              ? "bg-orange-500 border-green-600 text-white"
+              : "bg-gray-800 border-gray-700 text-gray-300 hover:border-orange-500"
           }`}
         >
           {watched ? "✅ Visto" : "👁️ Visto"}
@@ -94,7 +94,7 @@ function DiaryActions({ partidoId }: { partidoId: number }) {
           {lists.length === 0 ? (
             <div className="p-3 text-center">
               <p className="text-xs text-gray-400">No tienes listas</p>
-              <Link href="/listas" className="text-[10px] text-green-400">Crear una →</Link>
+              <Link href="/listas" className="text-[10px] text-orange-400">Crear una →</Link>
             </div>
           ) : (
             lists.map((list) => (
@@ -191,7 +191,7 @@ export default function PartidoDetallePage() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-2">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -200,7 +200,7 @@ export default function PartidoDetallePage() {
     return (
       <div className="py-8 text-center">
         <p className="text-xl">Partido no encontrado</p>
-        <Link href="/" className="text-green-400 mt-4 inline-block">← Volver</Link>
+        <Link href="/" className="text-orange-400 mt-4 inline-block">← Volver</Link>
       </div>
     );
   }
@@ -208,7 +208,7 @@ export default function PartidoDetallePage() {
   return (
     <div className="py-4">
       {/* Back */}
-      <Link href="/" className="text-green-400 text-sm mb-3 inline-flex items-center gap-1">
+      <Link href="/" className="text-orange-400 text-sm mb-3 inline-flex items-center gap-1">
         ← Volver
       </Link>
 
@@ -225,7 +225,7 @@ export default function PartidoDetallePage() {
         <div className="relative p-5">
           {/* Competition & date */}
           <div className="text-center mb-4">
-            <span className="text-[11px] font-medium text-green-400 bg-green-900/40 px-2 py-0.5 rounded">
+            <span className="text-[11px] font-medium text-orange-400 bg-orange-900/40 px-2 py-0.5 rounded">
               {partido.competicion || "Amistoso"}
             </span>
             <p className="text-[10px] text-gray-400 mt-1">
@@ -278,7 +278,7 @@ export default function PartidoDetallePage() {
         <div className="flex items-center gap-4">
           {/* Big score */}
           <div className="text-center">
-            <p className="text-3xl font-black text-green-400">
+            <p className="text-3xl font-black text-orange-400">
               {partido.calificaciones.length > 0
                 ? Number(partido.promedios.general).toFixed(1)
                 : "—"}
@@ -320,7 +320,7 @@ export default function PartidoDetallePage() {
                   {c.usuario.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-[8px] text-gray-400 max-w-[40px] truncate">@{c.usuario}</span>
-                <span className="text-[9px] text-green-400 font-bold">{c.general}</span>
+                <span className="text-[9px] text-orange-400 font-bold">{c.general}</span>
               </div>
             ))}
           </div>
@@ -339,7 +339,7 @@ export default function PartidoDetallePage() {
             onClick={() => setActiveTab(tab.key)}
             className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
               activeTab === tab.key
-                ? "bg-green-600 text-white"
+                ? "bg-orange-500 text-white"
                 : "text-gray-400 hover:text-white"
             }`}
           >
@@ -386,7 +386,7 @@ export default function PartidoDetallePage() {
                     </div>
                     <div className="flex items-center gap-1">
                       {Array.from({ length: 5 }, (_, i) => (
-                        <span key={i} className={`text-sm ${i < Math.round(cal.general / 2) ? "text-green-400" : "text-gray-600"}`}>
+                        <span key={i} className={`text-sm ${i < Math.round(cal.general / 2) ? "text-orange-400" : "text-gray-600"}`}>
                           ★
                         </span>
                       ))}

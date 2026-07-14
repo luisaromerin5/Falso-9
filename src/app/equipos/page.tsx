@@ -38,19 +38,19 @@ export default function EquiposPage() {
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
           placeholder="🔍 Buscar equipo..."
-          className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-green-500 focus:outline-none"
+          className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-orange-500 focus:outline-none"
         />
       </div>
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-2">
           {equiposFiltrados.map((equipo) => (
             <Link key={equipo.id} href={`/equipo/${equipo.id}`}>
-              <div className="bg-gray-800 rounded-xl p-4 border border-gray-700 hover:border-green-500 transition-all active:scale-[0.98] flex items-center justify-between">
+              <div className="bg-gray-800 rounded-xl p-4 border border-gray-700 hover:border-orange-500 transition-all active:scale-[0.98] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   {equipo.logo_url ? (
                     <img src={equipo.logo_url} alt="" className="w-8 h-8" />

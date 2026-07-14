@@ -40,7 +40,7 @@ export default function ListaDetallePage() {
   if (loading) {
     return (
       <div className="flex justify-center py-16">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -49,14 +49,14 @@ export default function ListaDetallePage() {
     return (
       <div className="py-8 text-center">
         <p>Lista no encontrada</p>
-        <Link href="/listas" className="text-green-400 mt-4 inline-block">← Volver</Link>
+        <Link href="/listas" className="text-orange-400 mt-4 inline-block">← Volver</Link>
       </div>
     );
   }
 
   return (
     <div className="py-4">
-      <Link href="/listas" className="text-green-400 text-sm mb-4 inline-block">← Volver a listas</Link>
+      <Link href="/listas" className="text-orange-400 text-sm mb-4 inline-block">← Volver a listas</Link>
 
       {/* Header */}
       <div className="bg-gray-800 rounded-xl p-4 border border-gray-700 mb-4">

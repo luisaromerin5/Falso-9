@@ -89,7 +89,7 @@ export default function MatchStats({ statistics }: MatchStatsProps) {
               </div>
               <div className="flex h-1.5 rounded-full overflow-hidden bg-gray-700">
                 <div
-                  className="bg-green-500 transition-all"
+                  className="bg-orange-500 transition-all"
                   style={{ width: `${homePercent}%` }}
                 />
                 <div

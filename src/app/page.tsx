@@ -12,7 +12,7 @@ function PartidoPoster({ partido }: { partido: Partido }) {
 
   return (
     <Link href={`/partido/${partido.id}`} className="flex-shrink-0">
-      <div className="w-[130px] rounded-lg overflow-hidden border border-gray-700 hover:border-green-500 transition-all active:scale-[0.97]">
+      <div className="w-[130px] rounded-lg overflow-hidden border border-gray-700 hover:border-orange-500 transition-all active:scale-[0.97]">
         {/* Poster visual with logos */}
         <div className="relative h-[170px] bg-gradient-to-b from-gray-700 to-gray-900 flex flex-col items-center justify-center gap-1.5 p-2">
           {/* Team logos */}
@@ -43,7 +43,7 @@ function PartidoPoster({ partido }: { partido: Partido }) {
 
           {/* Rating badge */}
           {partido.promedio_general && partido.promedio_general > 0 && (
-            <div className="absolute top-1.5 right-1.5 bg-green-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
+            <div className="absolute top-1.5 right-1.5 bg-orange-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
               {Number(partido.promedio_general).toFixed(1)}
             </div>
           )}
@@ -66,7 +66,7 @@ function HorizontalScroll({ children, title, seeAllHref }: { children: React.Rea
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-sm font-bold text-white">{title}</h2>
         {seeAllHref && (
-          <Link href={seeAllHref} className="text-xs text-green-400">
+          <Link href={seeAllHref} className="text-xs text-orange-400">
             Ver todos →
           </Link>
         )}
@@ -134,7 +134,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -150,7 +150,7 @@ export default function Home() {
 
       {/* Tabs */}
       <div className="flex gap-4 mb-5 border-b border-gray-700 pb-2">
-        <span className="text-sm font-medium text-green-400 border-b-2 border-green-400 pb-1">Partidos</span>
+        <span className="text-sm font-medium text-orange-400 border-b-2 border-orange-400 pb-1">Partidos</span>
         <Link href="/ranking" className="text-sm text-gray-400 hover:text-white">Top Reviews</Link>
       </div>
 
@@ -166,7 +166,7 @@ export default function Home() {
         <section className="mb-6">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-sm font-bold text-white">De tus compañeros</h2>
-            <Link href="/actividad" className="text-xs text-green-400">Ver todo →</Link>
+            <Link href="/actividad" className="text-xs text-orange-400">Ver todo →</Link>
           </div>
           <div className="space-y-2">
             {friendsActivity.slice(0, 3).map((item: any) => (
@@ -186,7 +186,7 @@ export default function Home() {
                       {item.equipo_local} vs {item.equipo_visitante}
                     </p>
                   </div>
-                  <span className="text-sm font-bold text-green-400">{item.general}</span>
+                  <span className="text-sm font-bold text-orange-400">{item.general}</span>
                 </div>
               </Link>
             ))}
@@ -233,7 +233,7 @@ export default function Home() {
                     <p className="text-[10px] text-gray-400">{p.competicion}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-sm font-bold text-green-400">{Number(p.promedio_general).toFixed(1)}</p>
+                    <p className="text-sm font-bold text-orange-400">{Number(p.promedio_general).toFixed(1)}</p>
                     <p className="text-[10px] text-gray-500">{p.total_votos} reviews</p>
                   </div>
                 </div>

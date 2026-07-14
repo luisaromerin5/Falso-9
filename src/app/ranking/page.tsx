@@ -42,7 +42,7 @@ export default function RankingPage() {
   if (loading) {
     return (
       <div className="flex justify-center py-16">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -78,7 +78,7 @@ export default function RankingPage() {
         <button
           onClick={() => setActiveTab("global")}
           className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "global" ? "bg-green-600 text-white" : "text-gray-400"
+            activeTab === "global" ? "bg-orange-500 text-white" : "text-gray-400"
           }`}
         >
           Global
@@ -86,7 +86,7 @@ export default function RankingPage() {
         <button
           onClick={() => setActiveTab("compañeros")}
           className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "compañeros" ? "bg-green-600 text-white" : "text-gray-400"
+            activeTab === "compañeros" ? "bg-orange-500 text-white" : "text-gray-400"
           }`}
           disabled={!user}
         >
@@ -95,7 +95,7 @@ export default function RankingPage() {
         <button
           onClick={() => setActiveTab("personal")}
           className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "personal" ? "bg-green-600 text-white" : "text-gray-400"
+            activeTab === "personal" ? "bg-orange-500 text-white" : "text-gray-400"
           }`}
           disabled={!user}
         >
@@ -139,7 +139,7 @@ export default function RankingPage() {
 
             return (
               <Link key={`${activeTab}-${index}`} href={`/partido/${partidoId}`}>
-                <div className="bg-gray-800 rounded-xl p-3 border border-gray-700 hover:border-green-500 transition-all flex items-center gap-3 mb-2">
+                <div className="bg-gray-800 rounded-xl p-3 border border-gray-700 hover:border-orange-500 transition-all flex items-center gap-3 mb-2">
                   <div className="text-xl min-w-[2rem] text-center">
                     {getMedal(index)}
                   </div>
@@ -153,7 +153,7 @@ export default function RankingPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold text-green-400">
+                    <p className="text-lg font-bold text-orange-400">
                       {Number(rating).toFixed(1)}
                     </p>
                     {votos && <p className="text-[9px] text-gray-400">{votos} votos</p>}
