@@ -110,8 +110,8 @@ export default function Home() {
         topLeagues.some((league) => p.competicion?.includes(league))
       );
 
-      setRecent(topLeagueMatches.slice(0, 15));
       setPopular(topLeagueMatches.slice(0, 15));
+      setRecent(allMatches.slice(0, 15));
       setTopRated(ranked.slice(0, 15));
       if (feed && Array.isArray(feed)) setFriendsActivity(feed.slice(0, 10));
       setLoading(false);
