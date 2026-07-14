@@ -52,6 +52,8 @@ function initializeDb(db: Database.Database) {
       equipo_visitante_id INTEGER NOT NULL,
       goles_local INTEGER DEFAULT 0,
       goles_visitante INTEGER DEFAULT 0,
+      penales_local INTEGER,
+      penales_visitante INTEGER,
       competicion_id INTEGER,
       fecha TEXT NOT NULL,
       estadio TEXT,

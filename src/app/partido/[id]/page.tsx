@@ -251,6 +251,11 @@ export default function PartidoDetallePage() {
                 {partido.goles_local} - {partido.goles_visitante}
               </div>
               <p className="text-[10px] text-gray-400 mt-1">Final</p>
+              {(partido as any).penales_local != null && (
+                <p className="text-xs text-yellow-400 mt-1">
+                  ({(partido as any).penales_local} - {(partido as any).penales_visitante} pen.)
+                </p>
+              )}
             </div>
             <div className="flex-1 text-center">
               {partido.logo_visitante && (

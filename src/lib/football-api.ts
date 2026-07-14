@@ -36,6 +36,7 @@ export interface APIMatch {
   score: {
     halftime: { home: number | null; away: number | null };
     fulltime: { home: number | null; away: number | null };
+    penalty: { home: number | null; away: number | null };
   };
 }
 
@@ -169,8 +170,8 @@ function syncMatchesArray(db: any, matches: APIMatch[]) {
   `);
 
   const upsertPartido = db.prepare(`
-    INSERT OR IGNORE INTO partidos (fixture_id, equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, competicion_id, fecha, estadio)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT OR IGNORE INTO partidos (fixture_id, equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, penales_local, penales_visitante, competicion_id, fecha, estadio)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   let synced = 0;
@@ -193,10 +194,14 @@ function syncMatchesArray(db: any, matches: APIMatch[]) {
         ? `${match.fixture.venue.name}, ${match.fixture.venue.city}`
         : "Estadio no disponible";
 
+      const penHome = match.score?.penalty?.home || null;
+      const penAway = match.score?.penalty?.away || null;
+
       upsertPartido.run(
         match.fixture.id,
         localId, visitanteId,
         match.goals.home, match.goals.away,
+        penHome, penAway,
         competicionId || null,
         fecha, estadio
       );
