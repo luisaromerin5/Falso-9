@@ -1,7 +1,10 @@
 import Database from "better-sqlite3";
 import path from "path";
 
-const DB_PATH = path.join(process.cwd(), "futbol-ratings.db");
+// In production, use the persistent volume path
+const DB_PATH = process.env.NODE_ENV === "production"
+  ? "/app/data/futbol-ratings.db"
+  : path.join(process.cwd(), "futbol-ratings.db");
 
 let db: Database.Database;
 
