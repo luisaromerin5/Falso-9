@@ -135,6 +135,7 @@ export default function AdivinaQuienPage() {
 
       {/* Win/Lose screen */}
       {gameState !== "playing" && (
+      <>
         <div className={`bg-gray-800 rounded-xl p-6 border ${gameState === "won" ? "border-green-500" : "border-red-500"} mb-4 text-center`}>
           <p className="text-xl font-bold text-white mb-1">{gameState === "won" ? "Correcto!" : "Game Over"}</p>
           <p className="text-sm text-gray-400 mb-1">El jugador era:</p>
@@ -149,6 +150,11 @@ export default function AdivinaQuienPage() {
         </div>
 
         <GameLeaderboard game="adivina-quien" currentScore={gameState === "won" ? (10 - questionsLeft) * 10 + guessAttempts * 5 : 0} />
+
+        <button onClick={startNewGame} className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-sm">
+          Jugar otra vez
+        </button>
+      </>
       )}
 
       {/* Game area */}
