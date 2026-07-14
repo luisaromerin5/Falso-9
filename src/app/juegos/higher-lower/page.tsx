@@ -107,15 +107,15 @@ export default function HigherLowerPage() {
 
       {/* Game over overlay */}
       {gameOver && (
-        <div className="bg-gray-800 rounded-xl p-6 border border-red-500/50 mb-4 text-center">
-          <p className="text-xl font-bold text-white mb-1">{correct === false ? "Game Over" : "Sin más jugadores"}</p>
+        <div className="bg-gray-800 rounded-xl p-6 border border-orange-500/50 mb-4 text-center">
+          <p className="text-xl font-bold text-white mb-1">{alreadyPlayed ? "Ya jugaste hoy" : correct === false ? "Game Over" : "Sin más jugadores"}</p>
           <p className="text-3xl font-black text-orange-400 mb-2">{score} pts</p>
-          {correct === false && comparePlayer && (
+          {correct === false && comparePlayer && !alreadyPlayed && (
             <p className="text-sm text-gray-300 mb-2">
               {comparePlayer.name} vale <span className="text-green-400 font-bold">€{comparePlayer.marketValue}M</span>
             </p>
           )}
-          {score >= highScore && score > 0 && (
+          {score >= highScore && score > 0 && !alreadyPlayed && (
             <p className="text-sm text-yellow-400 mb-2">Nuevo record!</p>
           )}
           <button
@@ -124,9 +124,12 @@ export default function HigherLowerPage() {
           >
             Volver a juegos
           </button>
-          {alreadyPlayed && <p className="text-[10px] text-gray-500 mt-2">Vuelve mañana para un nuevo reto</p>}
+          <p className="text-[10px] text-gray-500 mt-2">Vuelve mañana para un nuevo reto</p>
         </div>
       )}
+
+      {/* Leaderboard - always show when game is over */}
+      {gameOver && <GameLeaderboard game="higher-lower" currentScore={!alreadyPlayed ? score : undefined} />}
 
       {/* Players comparison */}
       {!gameOver && (
@@ -182,14 +185,13 @@ export default function HigherLowerPage() {
       )}
 
       {/* Instructions */}
-      <div className="mt-4 text-center">
-        <p className="text-[10px] text-gray-500">
-          Adivina si el siguiente jugador vale más (Higher) o menos (Lower) que el anterior
-        </p>
-      </div>
-
-      {/* Leaderboard */}
-      {gameOver && <GameLeaderboard game="higher-lower" currentScore={score} />}
+      {!gameOver && (
+        <div className="mt-4 text-center">
+          <p className="text-[10px] text-gray-500">
+            Adivina si el siguiente jugador vale más (Higher) o menos (Lower) que el anterior
+          </p>
+        </div>
+      )}
     </div>
   );
 }
