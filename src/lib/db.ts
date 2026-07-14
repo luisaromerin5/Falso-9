@@ -109,6 +109,17 @@ function initializeDb(db: Database.Database) {
       UNIQUE(usuario_id, seguido_id)
     );
 
+    CREATE TABLE IF NOT EXISTS solicitudes_companero (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      from_id INTEGER NOT NULL,
+      to_id INTEGER NOT NULL,
+      status TEXT DEFAULT 'pending',
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (from_id) REFERENCES usuarios(id),
+      FOREIGN KEY (to_id) REFERENCES usuarios(id),
+      UNIQUE(from_id, to_id)
+    );
+
     CREATE TABLE IF NOT EXISTS listas (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       usuario_id INTEGER NOT NULL,

@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   const db = getDb();
 
   const users = db.prepare(`
-    SELECT id, username, avatar_color, bio
+    SELECT id, username, avatar_color, avatar_url, bio
     FROM usuarios
     WHERE username LIKE ? AND id != ?
     LIMIT 10
@@ -34,10 +34,26 @@ export async function GET(request: Request) {
   ).all(user.id) as { seguido_id: number }[];
   const followingIds = new Set(following.map((f) => f.seguido_id));
 
-  const result = (users as Array<{ id: number; username: string; avatar_color: string; bio: string | null }>).map((u) => ({
+  // Check pending requests
+  db.exec(`CREATE TABLE IF NOT EXISTS solicitudes_companero (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    from_id INTEGER NOT NULL,
+    to_id INTEGER NOT NULL,
+    status TEXT DEFAULT 'pending',
+    created_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(from_id, to_id)
+  )`);
+
+  const pendingSent = db.prepare(
+    "SELECT to_id FROM solicitudes_companero WHERE from_id = ? AND status = 'pending'"
+  ).all(user.id) as { to_id: number }[];
+  const pendingIds = new Set(pendingSent.map((p) => p.to_id));
+
+  const result = (users as Array<{ id: number; username: string; avatar_color: string; avatar_url: string | null; bio: string | null }>).map((u) => ({
     ...u,
     isFriend: friendIds.has(u.id),
     isFollowing: followingIds.has(u.id),
+    isPending: pendingIds.has(u.id),
   }));
 
   return NextResponse.json(result);

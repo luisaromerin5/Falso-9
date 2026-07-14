@@ -37,7 +37,8 @@ export default function AmigosPage() {
   const [compañeros, setCompañeros] = useState<Friend[]>([]);
   const [seguidos, setSeguidos] = useState<Friend[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<Array<Friend & { isFriend: boolean; isFollowing: boolean }>>([]);
+  const [searchResults, setSearchResults] = useState<Array<Friend & { isFriend: boolean; isFollowing: boolean; isPending: boolean }>>([]);
+  const [pendingReceived, setPendingReceived] = useState<Friend[]>([]);
   const [activeTab, setActiveTab] = useState<"feed" | "compañeros" | "seguidos">("feed");
   const [loading, setLoading] = useState(true);
 
@@ -49,6 +50,7 @@ export default function AmigosPage() {
     ]).then(([f, relations]) => {
       setFeed(Array.isArray(f) ? f : []);
       setCompañeros(Array.isArray(relations.compañeros) ? relations.compañeros : []);
+      setPendingReceived(Array.isArray(relations.pendingReceived) ? relations.pendingReceived : []);
       setSeguidos(Array.isArray(relations.seguidos) ? relations.seguidos : []);
       setLoading(false);
     });
@@ -72,6 +74,33 @@ export default function AmigosPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "add", username }),
+    });
+    refreshData();
+  };
+
+  const requestCompanero = async (username: string) => {
+    await fetch("/api/amigos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "request", username }),
+    });
+    refreshData();
+  };
+
+  const acceptCompanero = async (username: string) => {
+    await fetch("/api/amigos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "accept", username }),
+    });
+    refreshData();
+  };
+
+  const rejectCompanero = async (username: string) => {
+    await fetch("/api/amigos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "reject", username }),
     });
     refreshData();
   };
@@ -110,6 +139,7 @@ export default function AmigosPage() {
     ]);
     setFeed(Array.isArray(f) ? f : []);
     setCompañeros(Array.isArray(relations.compañeros) ? relations.compañeros : []);
+      setPendingReceived(Array.isArray(relations.pendingReceived) ? relations.pendingReceived : []);
     setSeguidos(Array.isArray(relations.seguidos) ? relations.seguidos : []);
     setSearchQuery("");
     setSearchResults([]);
@@ -260,17 +290,43 @@ export default function AmigosPage() {
                     <p className="text-sm text-white font-medium">@{u.username}</p>
                   </div>
                   {u.isFriend ? (
-                    <span className="text-[10px] text-green-400 bg-green-900/30 px-2 py-1 rounded">✓ Compañero</span>
+                    <span className="text-[10px] text-green-400 bg-green-900/30 px-2 py-1 rounded">Compañero</span>
+                  ) : u.isPending ? (
+                    <span className="text-[10px] text-yellow-400 bg-yellow-900/30 px-2 py-1 rounded">Pendiente</span>
                   ) : u.isFollowing ? (
                     <span className="text-[10px] text-blue-400 bg-blue-900/30 px-2 py-1 rounded">Siguiendo</span>
                   ) : (
-                    <div className="flex gap-1">
-                      <button onClick={() => addFriend(u.username)} className="text-[9px] text-white bg-orange-500 px-2 py-1 rounded font-medium">Compañero</button>
+                    <div className="flex flex-col gap-1">
+                      <button onClick={() => requestCompanero(u.username)} className="text-[9px] text-white bg-orange-500 px-2 py-1 rounded font-medium">Solicitar Compañero</button>
                       <button onClick={() => followUser(u.username)} className="text-[9px] text-white bg-blue-600 px-2 py-1 rounded font-medium">Seguir</button>
                     </div>
                   )}
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Pending requests received */}
+          {pendingReceived.length > 0 && (
+            <div className="mb-4">
+              <p className="text-[10px] text-yellow-400 uppercase mb-2">Solicitudes pendientes ({pendingReceived.length})</p>
+              <div className="space-y-2">
+                {pendingReceived.map((f) => (
+                  <div key={f.id} className="bg-yellow-900/10 rounded-lg p-3 border border-yellow-700/50 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-white font-medium">@{f.username}</p>
+                      <p className="text-[9px] text-yellow-400">Quiere ser tu compañero</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <button onClick={() => acceptCompanero(f.username)} className="text-[9px] text-white bg-green-600 px-2 py-1 rounded font-medium">Aceptar</button>
+                      <button onClick={() => rejectCompanero(f.username)} className="text-[9px] text-red-400 px-2 py-1 rounded">Rechazar</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
