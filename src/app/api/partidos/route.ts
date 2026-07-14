@@ -17,6 +17,7 @@ export async function GET(request: Request) {
       ev.nombre as equipo_visitante,
       ev.logo_url as logo_visitante,
       c.nombre as competicion,
+      c.pais as competicion_pais,
       COALESCE(AVG(cal.general), 0) as promedio_general,
       COUNT(cal.id) as total_votos
     FROM partidos p

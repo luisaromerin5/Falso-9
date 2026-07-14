@@ -118,12 +118,7 @@ export default function Home() {
         if (topLeagues.has(comp)) return true;
         // Only England's Premier League
         if (comp === "Premier League") {
-          // Check by known English teams
-          const englishTeams = ["Arsenal", "Chelsea", "Liverpool", "Manchester", "Tottenham", "Everton", "Newcastle", "Aston Villa", "West Ham", "Brighton", "Wolves", "Fulham", "Brentford", "Bournemouth", "Crystal Palace", "Nottingham", "Burnley", "Sheffield", "Luton"];
-          const isEnglish = englishTeams.some(t => 
-            (p.equipo_local || "").includes(t) || (p.equipo_visitante || "").includes(t)
-          );
-          return isEnglish;
+          return (p as any).competicion_pais === "England";
         }
         return false;
       });
