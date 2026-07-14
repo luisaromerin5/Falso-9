@@ -9,6 +9,7 @@ import RatingForm from "@/components/RatingForm";
 import PitchLineups from "@/components/PitchLineups";
 import MatchEvents from "@/components/MatchEvents";
 import MatchStats from "@/components/MatchStats";
+import PenaltyShootout from "@/components/PenaltyShootout";
 
 function DiaryActions({ partidoId }: { partidoId: number }) {
   const { user } = useAuth();
@@ -404,6 +405,13 @@ export default function PartidoDetallePage() {
       {/* Tab: Details (Events + Lineups) */}
       {activeTab === "details" && (
         <div className="space-y-4">
+          {partido.details?.events && (
+            <PenaltyShootout
+              events={partido.details.events as Array<any>}
+              homeTeam={partido.equipo_local}
+              awayTeam={partido.equipo_visitante}
+            />
+          )}
           {partido.details?.events && (
             <MatchEvents
               events={partido.details.events as Array<any>}
