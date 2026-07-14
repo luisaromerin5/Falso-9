@@ -345,9 +345,13 @@ export default function AmigosPage() {
             <div className="space-y-2">
               {compañeros.map((f) => (
                 <div key={f.id} className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: f.avatar_color }}>
-                    {f.username.charAt(0).toUpperCase()}
-                  </div>
+                  {f.avatar_url ? (
+                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <div className="flex-1">
                     <p className="text-sm text-white font-medium">@{f.username}</p>
                     <p className="text-[9px] text-green-400">Compañero</p>
@@ -405,9 +409,13 @@ export default function AmigosPage() {
             <div className="space-y-2">
               {seguidos.map((f) => (
                 <div key={f.id} className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: f.avatar_color }}>
-                    {f.username.charAt(0).toUpperCase()}
-                  </div>
+                  {f.avatar_url ? (
+                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <div className="flex-1">
                     <p className="text-sm text-white font-medium">@{f.username}</p>
                     <p className="text-[9px] text-blue-400">Siguiendo</p>
