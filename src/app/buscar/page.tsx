@@ -103,37 +103,29 @@ export default function BuscarPage() {
       </div>
 
       {/* Quick filters by competition */}
-      {query.length < 2 && (
+      {query.length < 2 && !yearFilter && (
         <div>
           <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Competiciones</p>
           <div className="grid grid-cols-2 gap-2">
-            {competiciones.slice(0, 10).map((c) => {
-              const logoMap: Record<string, string> = {
-                "La Liga": "https://media.api-sports.io/football/leagues/140.png",
-                "Premier League": "https://media.api-sports.io/football/leagues/39.png",
-                "UEFA Champions League": "https://media.api-sports.io/football/leagues/2.png",
-                "World Cup": "/trophies/world-cup.png",
-                "Serie A": "https://media.api-sports.io/football/leagues/135.png",
-                "Bundesliga": "https://media.api-sports.io/football/leagues/78.png",
-                "Ligue 1": "https://media.api-sports.io/football/leagues/61.png",
-                "CONMEBOL Libertadores": "https://media.api-sports.io/football/leagues/13.png",
-                "Copa Libertadores": "https://media.api-sports.io/football/leagues/13.png",
-              };
-              const logo = logoMap[c.nombre];
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => setQuery(c.nombre)}
-                  className="bg-gray-800 border border-gray-700 rounded-lg p-3 text-left hover:border-green-500 transition-all flex items-center gap-2"
-                >
-                  {logo && <img src={logo} alt="" className="w-6 h-6 object-contain flex-shrink-0" />}
-                  <div>
-                    <p className="text-sm text-white font-medium truncate">{c.nombre}</p>
-                    <p className="text-[10px] text-gray-400">{c.pais}</p>
-                  </div>
-                </button>
-              );
-            })}
+            {[
+              { name: "La Liga", logo: "https://media.api-sports.io/football/leagues/140.png" },
+              { name: "Premier League", logo: "https://media.api-sports.io/football/leagues/39.png" },
+              { name: "UEFA Champions League", logo: "https://media.api-sports.io/football/leagues/2.png" },
+              { name: "Serie A", logo: "https://media.api-sports.io/football/leagues/135.png" },
+              { name: "Bundesliga", logo: "https://media.api-sports.io/football/leagues/78.png" },
+              { name: "Ligue 1", logo: "https://media.api-sports.io/football/leagues/61.png" },
+              { name: "CONMEBOL Libertadores", logo: "https://media.api-sports.io/football/leagues/13.png" },
+              { name: "World Cup", logo: "/trophies/world-cup.png" },
+            ].map((c) => (
+              <button
+                key={c.name}
+                onClick={() => setQuery(c.name)}
+                className="bg-gray-800 border border-gray-700 rounded-lg p-3 text-left hover:border-orange-500 transition-all flex items-center gap-2 overflow-hidden"
+              >
+                <img src={c.logo} alt="" className="w-6 h-6 object-contain flex-shrink-0" />
+                <p className="text-sm text-white font-medium truncate">{c.name}</p>
+              </button>
+            ))}
           </div>
         </div>
       )}
