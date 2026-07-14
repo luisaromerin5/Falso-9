@@ -1,6 +1,13 @@
-import { getCurrentUser, getTokenName } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { NextResponse } from "next/server";
+import path from "path";
+import fs from "fs";
+
+// Avatar storage path - use persistent volume in production
+const AVATARS_DIR = process.env.NODE_ENV === "production"
+  ? "/app/data/avatars"
+  : path.join(process.cwd(), "public", "avatars");
 
 export async function POST(request: Request) {
   const user = await getCurrentUser();
@@ -22,22 +29,18 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Save to public/avatars/
-    const fs = await import("fs");
-    const path = await import("path");
-    const avatarsDir = path.join(process.cwd(), "public", "avatars");
-
-    if (!fs.existsSync(avatarsDir)) {
-      fs.mkdirSync(avatarsDir, { recursive: true });
+    if (!fs.existsSync(AVATARS_DIR)) {
+      fs.mkdirSync(AVATARS_DIR, { recursive: true });
     }
 
-    const ext = file.name.split(".").pop() || "png";
+    const ext = file.name.split(".").pop() || "jpg";
     const filename = `${user.id}-${Date.now()}.${ext}`;
-    const filepath = path.join(avatarsDir, filename);
+    const filepath = path.join(AVATARS_DIR, filename);
 
     fs.writeFileSync(filepath, buffer);
 
-    const avatarUrl = `/avatars/${filename}`;
+    // Store as API route path (not static file)
+    const avatarUrl = `/api/avatar/${filename}`;
     db.prepare("UPDATE usuarios SET avatar_url = ? WHERE id = ?").run(avatarUrl, user.id);
 
     return NextResponse.json({ success: true, avatar_url: avatarUrl });
