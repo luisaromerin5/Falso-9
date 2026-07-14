@@ -283,27 +283,27 @@ export default function AmigosPage() {
             <div className="mb-4 space-y-2">
               <p className="text-[10px] text-gray-400 uppercase">Resultados</p>
               {searchResults.map((u) => (
-                <div key={u.id} className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-2">
+                <div key={u.id} className="bg-gray-800 rounded-lg p-4 border border-gray-700 flex items-center gap-3">
                   {u.avatar_url ? (
-                    <img src={u.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                    <img src={u.avatar_url} alt="" className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
                   ) : (
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: u.avatar_color }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0" style={{ background: u.avatar_color }}>
                       {u.username.charAt(0).toUpperCase()}
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white font-medium truncate">@{u.username}</p>
+                    <p className="text-base text-white font-medium truncate">@{u.username}</p>
                   </div>
                   {u.isFriend ? (
-                    <span className="text-[8px] text-green-400 bg-green-900/30 px-2 py-1 rounded flex-shrink-0">Compañero</span>
+                    <span className="text-xs text-green-400 bg-green-900/30 px-3 py-1.5 rounded flex-shrink-0">Compañero</span>
                   ) : u.isPending ? (
-                    <span className="text-[8px] text-yellow-400 bg-yellow-900/30 px-2 py-1 rounded flex-shrink-0">Pendiente</span>
+                    <span className="text-xs text-yellow-400 bg-yellow-900/30 px-3 py-1.5 rounded flex-shrink-0">Pendiente</span>
                   ) : u.isFollowing ? (
-                    <span className="text-[8px] text-blue-400 bg-blue-900/30 px-2 py-1 rounded flex-shrink-0">Siguiendo</span>
+                    <span className="text-xs text-blue-400 bg-blue-900/30 px-3 py-1.5 rounded flex-shrink-0">Siguiendo</span>
                   ) : (
-                    <div className="flex gap-1 flex-shrink-0">
-                      <button onClick={() => requestCompanero(u.username)} className="text-[8px] text-white bg-orange-500 px-1.5 py-1 rounded font-medium whitespace-nowrap">Solicitar</button>
-                      <button onClick={() => followUser(u.username)} className="text-[8px] text-white bg-blue-600 px-1.5 py-1 rounded font-medium whitespace-nowrap">Seguir</button>
+                    <div className="flex gap-2 flex-shrink-0">
+                      <button onClick={() => requestCompanero(u.username)} className="text-xs text-white bg-orange-500 px-3 py-1.5 rounded font-medium whitespace-nowrap">Solicitar</button>
+                      <button onClick={() => followUser(u.username)} className="text-xs text-white bg-blue-600 px-3 py-1.5 rounded font-medium whitespace-nowrap">Seguir</button>
                     </div>
                   )}
                 </div>
