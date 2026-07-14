@@ -243,7 +243,7 @@ export default function PartidoDetallePage() {
               {partido.logo_local && (
                 <img src={partido.logo_local} alt="" className="w-14 h-14 mx-auto mb-2" />
               )}
-              <p className="text-sm font-bold text-white">{partido.equipo_local}</p>
+              <Link href={`/equipo/${(partido as any).equipo_local_id}`} className="text-sm font-bold text-white hover:text-orange-400 transition-colors">{partido.equipo_local}</Link>
             </div>
             <div className="px-4 text-center">
               <div className="text-4xl font-black text-white">
@@ -255,7 +255,7 @@ export default function PartidoDetallePage() {
               {partido.logo_visitante && (
                 <img src={partido.logo_visitante} alt="" className="w-14 h-14 mx-auto mb-2" />
               )}
-              <p className="text-sm font-bold text-white">{partido.equipo_visitante}</p>
+              <Link href={`/equipo/${(partido as any).equipo_visitante_id}`} className="text-sm font-bold text-white hover:text-orange-400 transition-colors">{partido.equipo_visitante}</Link>
             </div>
           </div>
 

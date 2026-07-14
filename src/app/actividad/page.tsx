@@ -343,7 +343,7 @@ export default function AmigosPage() {
                     <p className="text-sm text-white font-medium">@{f.username}</p>
                     <p className="text-[9px] text-green-400">Compañero</p>
                   </div>
-                  <button onClick={() => removeFriend(f.username)} className="text-[10px] text-red-400">Eliminar</button>
+                  <button onClick={() => { if(confirm("¿Estás seguro de eliminar a @" + f.username + " como compañero?")) removeFriend(f.username); }} className="text-[10px] text-red-400">Eliminar</button>
                 </div>
               ))}
             </div>
@@ -407,7 +407,7 @@ export default function AmigosPage() {
                     <p className="text-sm text-white font-medium">@{f.username}</p>
                     <p className="text-[9px] text-blue-400">Siguiendo</p>
                   </div>
-                  <button onClick={() => unfollowUser(f.username)} className="text-[10px] text-red-400">Dejar de seguir</button>
+                  <button onClick={() => { if(confirm("¿Dejar de seguir a @" + f.username + "?")) unfollowUser(f.username); }} className="text-[10px] text-red-400">Dejar de seguir</button>
                 </div>
               ))}
             </div>

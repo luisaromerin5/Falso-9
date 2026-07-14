@@ -155,7 +155,7 @@ export default function Home() {
       </div>
 
       {/* Popular this week */}
-      <HorizontalScroll title="Popular esta semana" seeAllHref="/ranking">
+      <HorizontalScroll title="Popular esta semana" seeAllHref="/partidos?cat=popular">
         {popular.map((p) => (
           <PartidoPoster key={p.id} partido={p} />
         ))}
@@ -204,7 +204,7 @@ export default function Home() {
       {/* Top rated / Friends rated */}
       <HorizontalScroll
         title={user && friendsActivity.length > 0 ? "Calificados por compañeros" : "Mejor calificados"}
-        seeAllHref="/ranking"
+        seeAllHref="/partidos?cat=popular"
       >
         {topRated.map((p) => (
           <PartidoPoster key={p.id} partido={p} />

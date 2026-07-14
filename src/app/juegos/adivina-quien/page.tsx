@@ -15,6 +15,9 @@ interface GuessPlayer {
 
 const QUESTIONS: { id: string; text: string }[] = [
   { id: "plays_europe", text: "¿Juega actualmente en Europa?" },
+  { id: "plays_psg_bayern", text: "¿Juega en PSG o Bayern Munich?" },
+  { id: "played_barcelona", text: "¿Ha jugado alguna vez en el Barcelona?" },
+  { id: "plays_serie_a", text: "¿Juega en la Serie A (Italia)?" },
   { id: "is_forward", text: "¿Es delantero?" },
   { id: "is_midfielder", text: "¿Es mediocampista?" },
   { id: "is_defender", text: "¿Es defensa o portero?" },

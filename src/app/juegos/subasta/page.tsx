@@ -8,9 +8,16 @@ import GameLeaderboard from "@/components/GameLeaderboard";
 
 const FORMATION = [
   { position: "Goalkeeper", label: "Portero", count: 1 },
-  { position: "Defender", label: "Defensa", count: 4 },
-  { position: "Midfielder", label: "Mediocampista", count: 3 },
-  { position: "Forward", label: "Delantero", count: 3 },
+  { position: "Defender", label: "Lateral Derecho", count: 1 },
+  { position: "Defender", label: "Defensa Central", count: 1 },
+  { position: "Defender", label: "Defensa Central", count: 1 },
+  { position: "Defender", label: "Lateral Izquierdo", count: 1 },
+  { position: "Midfielder", label: "Mediocampista", count: 1 },
+  { position: "Midfielder", label: "Mediocampista", count: 1 },
+  { position: "Midfielder", label: "Mediocampista", count: 1 },
+  { position: "Forward", label: "Extremo Izquierdo", count: 1 },
+  { position: "Forward", label: "Delantero Centro", count: 1 },
+  { position: "Forward", label: "Extremo Derecho", count: 1 },
 ];
 
 const BUDGETS = [
@@ -24,7 +31,8 @@ function getPlayersForPosition(position: string, maxPrice: number, exclude: numb
   const available = PLAYERS.filter(
     (p) => p.position === position && p.marketValue <= maxPrice && !exclude.includes(p.id)
   );
-  const seed = getDailySeed() + slotIndex * 7;
+  // Use different seed offset per slot to ensure different options for same position
+  const seed = getDailySeed() + slotIndex * 13 + slotIndex * slotIndex;
   const shuffled = seededShuffle(available, seed);
   return shuffled.slice(0, 5);
 }
@@ -41,12 +49,10 @@ export default function SubastaPage() {
   const [usedIds, setUsedIds] = useState<number[]>([]);
 
   // Build the list of slots to fill
-  const slots: { position: string; label: string }[] = [];
-  FORMATION.forEach((f) => {
-    for (let i = 0; i < f.count; i++) {
-      slots.push({ position: f.position, label: `${f.label} ${f.count > 1 ? i + 1 : ""}`.trim() });
-    }
-  });
+  const slots: { position: string; label: string }[] = FORMATION.map((f) => ({
+    position: f.position,
+    label: f.label,
+  }));
 
   const startGame = (budgetValue: number) => {
     setBudget(budgetValue);
