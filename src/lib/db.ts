@@ -158,5 +158,7 @@ function initializeDb(db: Database.Database) {
   // Migrations - add columns if they don't exist
   try { db.exec("ALTER TABLE partidos ADD COLUMN penales_local INTEGER"); } catch {}
   try { db.exec("ALTER TABLE partidos ADD COLUMN penales_visitante INTEGER"); } catch {}
+  try { db.exec("CREATE TABLE IF NOT EXISTS game_scores (id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER NOT NULL, game TEXT NOT NULL, score INTEGER NOT NULL, fecha TEXT NOT NULL, created_at TEXT DEFAULT (datetime('now')), UNIQUE(usuario_id, game, fecha))"); } catch {}
+  try { db.exec("CREATE TABLE IF NOT EXISTS solicitudes_companero (id INTEGER PRIMARY KEY AUTOINCREMENT, from_id INTEGER NOT NULL, to_id INTEGER NOT NULL, status TEXT DEFAULT 'pending', created_at TEXT DEFAULT (datetime('now')), UNIQUE(from_id, to_id))"); } catch {}
 }
 
