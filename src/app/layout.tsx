@@ -7,9 +7,12 @@ import AppShell from "@/components/AppShell";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Falso 9 — Califica partidos de fútbol",
+  title: "Falso 9",
   description: "Tu diario de fútbol. Califica, comenta y comparte partidos con la comunidad.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export const viewport: Viewport = {
