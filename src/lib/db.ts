@@ -154,5 +154,9 @@ function initializeDb(db: Database.Database) {
   `);
 
   // La base de datos se llena con datos reales via /api/sync
+
+  // Migrations - add columns if they don't exist
+  try { db.exec("ALTER TABLE partidos ADD COLUMN penales_local INTEGER"); } catch {}
+  try { db.exec("ALTER TABLE partidos ADD COLUMN penales_visitante INTEGER"); } catch {}
 }
 

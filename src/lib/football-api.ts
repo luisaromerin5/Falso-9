@@ -170,8 +170,13 @@ function syncMatchesArray(db: any, matches: APIMatch[]) {
   `);
 
   const upsertPartido = db.prepare(`
-    INSERT OR IGNORE INTO partidos (fixture_id, equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, penales_local, penales_visitante, competicion_id, fecha, estadio)
+    INSERT INTO partidos (fixture_id, equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, penales_local, penales_visitante, competicion_id, fecha, estadio)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(fixture_id) DO UPDATE SET
+      penales_local = excluded.penales_local,
+      penales_visitante = excluded.penales_visitante,
+      goles_local = excluded.goles_local,
+      goles_visitante = excluded.goles_visitante
   `);
 
   let synced = 0;
