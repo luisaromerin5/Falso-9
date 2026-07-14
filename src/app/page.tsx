@@ -99,10 +99,9 @@ export default function Home() {
     }
 
     Promise.all(promises).then(([allMatches, ranked, feed]) => {
-      // Top leagues for "Popular esta semana" - exact names only, first division professional football
+      // Top leagues for "Popular esta semana" - exact first division professional football
       const topLeagues = new Set([
         "La Liga",
-        "Premier League",
         "Serie A",
         "Bundesliga",
         "Ligue 1",
@@ -113,9 +112,21 @@ export default function Home() {
         "Copa America",
       ]);
 
-      const topLeagueMatches = allMatches.filter((p: Partido) =>
-        topLeagues.has(p.competicion || "")
-      );
+      // Premier League needs special handling (many countries have "Premier League")
+      const topLeagueMatches = allMatches.filter((p: Partido) => {
+        const comp = p.competicion || "";
+        if (topLeagues.has(comp)) return true;
+        // Only England's Premier League
+        if (comp === "Premier League") {
+          // Check by known English teams
+          const englishTeams = ["Arsenal", "Chelsea", "Liverpool", "Manchester", "Tottenham", "Everton", "Newcastle", "Aston Villa", "West Ham", "Brighton", "Wolves", "Fulham", "Brentford", "Bournemouth", "Crystal Palace", "Nottingham", "Burnley", "Sheffield", "Luton"];
+          const isEnglish = englishTeams.some(t => 
+            (p.equipo_local || "").includes(t) || (p.equipo_visitante || "").includes(t)
+          );
+          return isEnglish;
+        }
+        return false;
+      });
 
       setPopular(topLeagueMatches.slice(0, 15));
       setRecent(allMatches.slice(0, 15));
