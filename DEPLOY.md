@@ -1,163 +1,90 @@
-# 🚀 Guía de Despliegue - Fútbol Ratings
+# 🚀 Deploy de Falso 9 en Railway
 
-## API de Fútbol Real
+## Paso 1: Crear cuenta en GitHub (si no tienes)
+1. Ve a https://github.com
+2. Click "Sign up" y crea tu cuenta
 
-1. Regístrate gratis en: https://www.football-data.org/client/register
-2. Te envían un API key por email
-3. Crea un archivo `.env.local`:
-   ```
-   FOOTBALL_API_KEY=tu_api_key_aqui
-   ```
-4. Para sincronizar partidos, haz un POST a `/api/sync`:
-   ```bash
-   curl -X POST http://localhost:3000/api/sync \
-     -H "Content-Type: application/json" \
-     -d '{"competition": "PL"}'
-   ```
+## Paso 2: Crear repositorio en GitHub
+1. Ve a https://github.com/new
+2. Nombre: `falso-9`
+3. Privado o público (como prefieras)
+4. NO marques "Add a README" (ya tenemos código)
+5. Click "Create repository"
 
-**Competiciones disponibles (plan gratis):**
-| Código | Competición |
-|--------|-------------|
-| PL | Premier League |
-| PD | La Liga |
-| BL1 | Bundesliga |
-| SA | Serie A |
-| FL1 | Ligue 1 |
-| CL | Champions League |
+## Paso 3: Subir el código
+Desde tu terminal (o desde aquí), ejecuta:
+```bash
+cd /workspace/futbol-ratings
+git remote add origin https://github.com/TU_USUARIO/falso-9.git
+git push -u origin main
+```
 
----
+Te pedirá tu usuario y un token de GitHub (no contraseña).
+Para crear el token: GitHub → Settings → Developer settings → Personal access tokens → Generate new token (classic) → marca "repo" → Generate.
 
-## Opción 1: Vercel (Recomendado - GRATIS)
+## Paso 4: Crear cuenta en Railway
+1. Ve a https://railway.app
+2. Click "Login" → "Login with GitHub"
+3. Autoriza Railway
 
-La forma más fácil. Vercel es de los creadores de Next.js.
+## Paso 5: Crear proyecto en Railway
+1. Click "New Project"
+2. Click "Deploy from GitHub Repo"
+3. Selecciona tu repo `falso-9`
+4. Railway detecta el Dockerfile automáticamente
 
-### Pasos:
-1. Sube el código a GitHub:
-   ```bash
-   cd futbol-ratings
-   git init
-   git add .
-   git commit -m "Fútbol Ratings v1"
-   # Crea un repo en github.com, luego:
-   git remote add origin https://github.com/TU_USUARIO/futbol-ratings.git
-   git push -u origin main
-   ```
+## Paso 6: Configurar variables de entorno
+En Railway → tu proyecto → "Variables" → agrega:
+```
+API_FOOTBALL_KEY = 94b4b7e77cc9267a10448100af986862
+RAPIDAPI_KEY = 0cf48760e5mshcab9ecac0847ba8p17f9dbjsnd8b64573bfee
+JWT_SECRET = falso9-produccion-cambia-esto-por-algo-random-largo
+```
 
-2. Ve a https://vercel.com y registrate con GitHub
+## Paso 7: Configurar volumen persistente
+1. En Railway → tu servicio → "Settings" → "Volumes"
+2. Click "Add Volume"
+3. Mount path: `/app/data`
+4. Esto asegura que la base de datos no se borra entre deploys
 
-3. Click "Import Project" → selecciona tu repo
+## Paso 8: Generar dominio
+1. En Railway → tu servicio → "Settings" → "Networking"
+2. Click "Generate Domain"
+3. Te dará algo como: `falso-9-production.up.railway.app`
 
-4. En "Environment Variables" agrega:
-   ```
-   FOOTBALL_API_KEY = tu_api_key
-   ```
+## Paso 9: Sincronizar partidos
+Una vez online, abre tu app y usa el botón "Filtros" para sincronizar partidos.
+O desde terminal:
+```bash
+curl -X POST https://TU-DOMINIO.up.railway.app/api/sync \
+  -H "Content-Type: application/json" \
+  -d '{"league": 140, "season": 2023}'
+```
 
-5. Click "Deploy" — ¡listo!
-
-**Nota:** SQLite no persiste en Vercel (es serverless). Para producción real, cambia a:
-- **Vercel Postgres** (gratis hasta 256MB)
-- **Turso** (SQLite en la nube, gratis hasta 500MB)
-- **PlanetScale** (MySQL serverless)
-
----
-
-## Opción 2: Railway ($5/mes - Muy fácil)
-
-Railway soporta Docker y SQLite persiste.
-
-### Pasos:
-1. Ve a https://railway.app y registrate con GitHub
-2. "New Project" → "Deploy from GitHub Repo"
-3. Selecciona tu repo
-4. Agrega variable de entorno: `FOOTBALL_API_KEY`
-5. Railway detecta el Dockerfile automáticamente
-6. Te da una URL tipo: `futbol-ratings.up.railway.app`
+## Paso 10: Dominio personalizado (opcional)
+1. Compra un dominio en Namecheap (~$10/año) ej: `falso9.app`
+2. En Railway → Settings → Custom Domain → agrega tu dominio
+3. En Namecheap → DNS → agrega un CNAME apuntando a Railway
 
 ---
 
-## Opción 3: VPS barato (DigitalOcean, Hetzner, Contabo)
+## Resumen de costos
 
-Más control, desde $4-5/mes.
-
-### Pasos:
-1. Crea un servidor Ubuntu (el más barato funciona)
-
-2. Instala Docker:
-   ```bash
-   curl -fsSL https://get.docker.com | sh
-   ```
-
-3. Clona tu repo:
-   ```bash
-   git clone https://github.com/TU_USUARIO/futbol-ratings.git
-   cd futbol-ratings
-   ```
-
-4. Crea `.env.local`:
-   ```bash
-   echo "FOOTBALL_API_KEY=tu_key" > .env.local
-   ```
-
-5. Construye y ejecuta:
-   ```bash
-   docker build -t futbol-ratings .
-   docker run -d -p 3000:3000 --env-file .env.local \
-     -v futbol-data:/app \
-     --restart unless-stopped \
-     --name futbol-ratings \
-     futbol-ratings
-   ```
-
-6. (Opcional) Usa Caddy o Nginx como reverse proxy con SSL:
-   ```bash
-   # Instalar Caddy
-   apt install -y caddy
-
-   # /etc/caddy/Caddyfile
-   tudominio.com {
-     reverse_proxy localhost:3000
-   }
-
-   systemctl restart caddy
-   ```
+| Servicio | Costo |
+|----------|-------|
+| Railway | ~$5/mes |
+| Dominio (opcional) | ~$10/año |
+| API-Football Free | $0 |
+| Total | ~$5/mes |
 
 ---
 
-## Opción 4: Render (Gratis con limitaciones)
+## Para actualizar la app después
 
-1. Ve a https://render.com
-2. "New Web Service" → conecta GitHub
-3. Build command: `npm install && npm run build`
-4. Start command: `npm start`
-5. Agrega env vars
-
-**Limitación:** En plan gratis se duerme después de 15min sin actividad.
-
----
-
-## Comparación rápida
-
-| Plataforma | Precio | SQLite persiste | Dificultad | URL custom |
-|-----------|--------|----------------|------------|------------|
-| Vercel | Gratis | ❌ (usar Turso) | ⭐ Fácil | ✅ |
-| Railway | ~$5/mes | ✅ | ⭐ Fácil | ✅ |
-| Render | Gratis | ❌ | ⭐ Fácil | ✅ |
-| VPS | ~$5/mes | ✅ | ⭐⭐ Media | ✅ |
-
----
-
-## Mi recomendación
-
-**Para empezar rápido:** Vercel + Turso (todo gratis)
-**Para no complicarte:** Railway ($5/mes, todo funciona directo)
-**Para aprender y tener control:** VPS con Docker
-
----
-
-## Dominio personalizado
-
-En cualquier opción puedes comprar un dominio (~$10/año):
-- Namecheap: https://namecheap.com
-- Cloudflare: https://dash.cloudflare.com/domains
-
-Luego apuntas el DNS a tu servidor y listo.
+Cada vez que hagas cambios:
+```bash
+git add -A
+git commit -m "descripcion del cambio"
+git push
+```
+Railway re-despliega automáticamente en ~30 segundos.
