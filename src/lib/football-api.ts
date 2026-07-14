@@ -176,7 +176,7 @@ function syncMatchesArray(db: any, matches: APIMatch[]) {
   let synced = 0;
 
   for (const match of matches) {
-    if (match.fixture.status.short !== "FT") continue;
+    if (match.fixture.status.short !== "FT" && match.fixture.status.short !== "AET" && match.fixture.status.short !== "PEN") continue;
     if (match.goals.home === null) continue;
 
     upsertEquipo.run(match.teams.home.name, match.league.country, match.teams.home.logo);
