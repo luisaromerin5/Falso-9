@@ -99,15 +99,22 @@ export default function Home() {
     }
 
     Promise.all(promises).then(([allMatches, ranked, feed]) => {
-      // Top leagues for "Popular esta semana"
-      const topLeagues = [
-        "La Liga", "Premier League", "Serie A", "Bundesliga", "Ligue 1",
-        "UEFA Champions League", "CONMEBOL Libertadores", "World Cup",
-        "Euro Championship", "Copa America"
-      ];
+      // Top leagues for "Popular esta semana" - exact names only, first division professional football
+      const topLeagues = new Set([
+        "La Liga",
+        "Premier League",
+        "Serie A",
+        "Bundesliga",
+        "Ligue 1",
+        "UEFA Champions League",
+        "CONMEBOL Libertadores",
+        "World Cup",
+        "Euro Championship",
+        "Copa America",
+      ]);
 
       const topLeagueMatches = allMatches.filter((p: Partido) =>
-        topLeagues.some((league) => p.competicion?.includes(league))
+        topLeagues.has(p.competicion || "")
       );
 
       setPopular(topLeagueMatches.slice(0, 15));
