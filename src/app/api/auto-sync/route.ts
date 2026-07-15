@@ -14,7 +14,7 @@ export async function GET() {
   `).get() as { value: string } | undefined;
 
   const now = Date.now();
-  if (lastSync && (now - Number(lastSync.value)) < 1 * 60 * 60 * 1000) {
+  if (lastSync && (now - Number(lastSync.value)) < 15 * 60 * 1000) {
     return NextResponse.json({ skipped: true, reason: "synced recently" });
   }
 
