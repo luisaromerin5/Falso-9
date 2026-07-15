@@ -111,7 +111,7 @@ export const TOPICS: Topic[] = [
   },
   {
     id: 7,
-    title: "Selecciones con más Copas del Mundo",
+    title: "Selecciones ganadoras de la Copa del Mundo",
     answers: [
       { position: 1, player: "Brasil", nationality: "South America", stat: "5 títulos", aliases: ["brazil"] },
       { position: 2, player: "Alemania", nationality: "Europe", stat: "4 títulos", aliases: ["germany"] },
@@ -121,8 +121,6 @@ export const TOPICS: Topic[] = [
       { position: 6, player: "Uruguay", nationality: "South America", stat: "2 títulos", aliases: [] },
       { position: 7, player: "Inglaterra", nationality: "Europe", stat: "1 título", aliases: ["england"] },
       { position: 8, player: "España", nationality: "Europe", stat: "1 título", aliases: ["spain"] },
-      { position: 9, player: "Países Bajos", nationality: "Europe", stat: "0 (3 finales)", aliases: ["netherlands", "holanda", "holland"] },
-      { position: 10, player: "Hungría", nationality: "Europe", stat: "0 (2 finales)", aliases: ["hungary"] },
     ],
   },
 ];
