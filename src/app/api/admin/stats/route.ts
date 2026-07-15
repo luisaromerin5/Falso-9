@@ -1,7 +1,15 @@
 import { getDb } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
+  // Admin access only - requires secret key in URL
+  const { searchParams } = new URL(request.url);
+  const key = searchParams.get("key");
+
+  if (key !== "falso9admin2026") {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+
   const db = getDb();
 
   const stats = {
