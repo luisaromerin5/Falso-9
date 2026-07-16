@@ -6,7 +6,9 @@ export async function GET(request: Request) {
   const competicion = searchParams.get("competicion");
   const equipo = searchParams.get("equipo");
   const orden = searchParams.get("orden") || "fecha_desc";
-  const limit = Math.min(Number(searchParams.get("limit") || 100), 500);
+  const limit = equipo || competicion 
+    ? Math.min(Number(searchParams.get("limit") || 500), 1000)
+    : Math.min(Number(searchParams.get("limit") || 100), 500);
 
   const db = getDb();
 
