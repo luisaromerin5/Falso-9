@@ -166,27 +166,11 @@ export default function Home() {
 
       {/* Destacados - clasicos, finales, goleadas */}
       {destacados.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-sm font-bold text-white mb-2">Partidos Destacados</h2>
-          <div className="space-y-2">
-            {destacados.slice(0, 5).map((p: any) => (
-              <Link key={p.id} href={`/partido/${p.id}`}>
-                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3 hover:border-orange-500 mb-2">
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    {p.logo_local && <img src={p.logo_local} alt="" className="w-6 h-6" />}
-                    <span className="text-xs font-bold text-white">{p.goles_local}-{p.goles_visitante}</span>
-                    {p.logo_visitante && <img src={p.logo_visitante} alt="" className="w-6 h-6" />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-white truncate">{p.equipo_local} vs {p.equipo_visitante}</p>
-                    <p className="text-[9px] text-gray-400">{p.competicion} • {p.fecha}</p>
-                  </div>
-                  <span className="text-[8px] text-orange-400 bg-orange-900/30 px-1.5 py-0.5 rounded flex-shrink-0">{p.tag}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <HorizontalScroll title="Partidos Destacados">
+          {destacados.map((p: any) => (
+            <PartidoPoster key={p.id} partido={p} />
+          ))}
+        </HorizontalScroll>
       )}
 
       {/* Friends activity */}
