@@ -45,6 +45,12 @@ export async function GET() {
     LEFT JOIN competiciones c ON p.competicion_id = c.id
     LEFT JOIN calificaciones cal ON cal.partido_id = p.id
     WHERE (p.penales_local IS NOT NULL OR p.goles_local + p.goles_visitante >= 4)
+    AND c.nombre NOT LIKE '%Friendl%'
+    AND c.nombre NOT LIKE '%U17%'
+    AND c.nombre NOT LIKE '%U19%'
+    AND c.nombre NOT LIKE '%U20%'
+    AND c.nombre NOT LIKE '%U21%'
+    AND c.nombre NOT LIKE '%Women%'
     GROUP BY p.id
     ORDER BY p.fecha DESC
     LIMIT 20
@@ -71,8 +77,10 @@ export async function GET() {
     LIMIT 500
   `).all() as any[];
 
-  // Filter for classics
+  // Filter for classics (exclude friendlies and youth)
   const clasicos = allRecent.filter((p) => {
+    const comp = (p.competicion || "").toLowerCase();
+    if (comp.includes("friendl") || comp.includes("u17") || comp.includes("u19") || comp.includes("u20") || comp.includes("u21") || comp.includes("u23") || comp.includes("women")) return false;
     return CLASICOS.some(([a, b]) =>
       (p.equipo_local.includes(a) && p.equipo_visitante.includes(b)) ||
       (p.equipo_local.includes(b) && p.equipo_visitante.includes(a))
