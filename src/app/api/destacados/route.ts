@@ -28,18 +28,19 @@ const CLASICOS = [
 export async function GET() {
   const db = getDb();
 
-  // Top 15 competitions worldwide
+  // Top competitions worldwide
   const TOP_COMPETITIONS = new Set([
     "World Cup",
     "Euro Championship",
     "UEFA Champions League",
+    "UEFA Europa League",
+    "UEFA Europa Conference League",
     "CONMEBOL Libertadores",
     "Premier League",
     "La Liga",
     "Serie A",
     "Bundesliga",
     "Ligue 1",
-    "Serie A",
     "Copa Libertadores",
     "Liga MX",
     "Eredivisie",
