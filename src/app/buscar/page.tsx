@@ -47,10 +47,13 @@ export default function BuscarPage() {
     // Use dropdown year filter, or year from query text
     const activeYear = yearFilter || yearFromQuery;
 
-    // If year filter is active, search on server for full history
-    if (activeYear) {
+    // Always search on server for accurate results
+    if (q.length >= 2 || activeYear) {
       const timer = setTimeout(() => {
-        fetch(`/api/buscar?q=${encodeURIComponent(q || "")}&year=${activeYear}`)
+        const params = new URLSearchParams();
+        if (q.length >= 2) params.set("q", q);
+        if (activeYear) params.set("year", activeYear);
+        fetch(`/api/buscar?${params}`)
           .then((r) => r.json())
           .then((data) => {
             setPartidos(Array.isArray(data) ? data.slice(0, 30) : []);
@@ -66,34 +69,9 @@ export default function BuscarPage() {
       return () => clearTimeout(timer);
     }
 
-    // No year filter - search locally from recent matches
-    let filtered = allPartidos;
-
-    if (q.length >= 2) {
-      filtered = filtered.filter(
-        (p) =>
-          p.equipo_local?.toLowerCase().includes(q) ||
-          p.equipo_visitante?.toLowerCase().includes(q) ||
-          p.competicion?.toLowerCase().includes(q)
-      );
-    }
-
-    if (activeYear) {
-      filtered = filtered.filter((p) => p.fecha?.startsWith(activeYear));
-    }
-
-    setPartidos(filtered.slice(0, 30));
-
-    // Also find matching teams
-    if (q.length >= 2) {
-      const teamMatches = equipos.filter((e) =>
-        e.nombre.toLowerCase().includes(q)
-      ).slice(0, 5);
-      setMatchingTeams(teamMatches);
-    } else {
-      setMatchingTeams([]);
-    }
-  }, [query, yearFilter, allPartidos, equipos]);
+    setPartidos([]);
+    setMatchingTeams([]);
+  }, [query, yearFilter, equipos]);
 
   return (
     <div className="py-4">
