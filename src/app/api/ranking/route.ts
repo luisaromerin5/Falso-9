@@ -8,7 +8,9 @@ export async function GET() {
     SELECT 
       p.*,
       el.nombre as equipo_local,
+      el.logo_url as logo_local,
       ev.nombre as equipo_visitante,
+      ev.logo_url as logo_visitante,
       c.nombre as competicion,
       AVG(cal.general) as promedio_general,
       COUNT(cal.id) as total_votos
