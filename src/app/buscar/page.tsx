@@ -17,7 +17,7 @@ export default function BuscarPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/partidos").then((r) => r.json()),
+      fetch("/api/partidos?limit=500").then((r) => r.json()),
       fetch("/api/competiciones").then((r) => r.json()),
       fetch("/api/equipos").then((r) => r.json()),
     ]).then(([p, c, e]) => {

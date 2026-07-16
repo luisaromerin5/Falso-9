@@ -6,6 +6,7 @@ export async function GET(request: Request) {
   const competicion = searchParams.get("competicion");
   const equipo = searchParams.get("equipo");
   const orden = searchParams.get("orden") || "fecha_desc";
+  const limit = Math.min(Number(searchParams.get("limit") || 100), 500);
 
   const db = getDb();
 
@@ -55,6 +56,8 @@ export async function GET(request: Request) {
   } else {
     query += " ORDER BY p.fecha DESC";
   }
+
+  query += ` LIMIT ${limit}`;
 
   const partidos = db.prepare(query).all(...params);
 

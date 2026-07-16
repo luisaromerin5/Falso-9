@@ -15,7 +15,7 @@ export default function PartidosListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/partidos?orden=fecha_desc")
+    fetch("/api/partidos?orden=fecha_desc&limit=500")
       .then((r) => r.json())
       .then((data) => {
         const topLeagues = new Set([

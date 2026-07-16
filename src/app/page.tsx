@@ -90,7 +90,7 @@ export default function Home() {
     if (authLoading) return;
 
     const promises: Promise<any>[] = [
-      fetch("/api/partidos?orden=fecha_desc").then((r) => r.json()),
+      fetch("/api/partidos?orden=fecha_desc&limit=200").then((r) => r.json()),
       fetch("/api/ranking").then((r) => r.json()),
     ];
 
