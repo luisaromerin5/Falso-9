@@ -30,8 +30,13 @@ export async function GET(request: Request) {
   const params: string[] = [];
 
   if (q.length >= 2) {
-    query += ` AND (el.nombre LIKE ? OR ev.nombre LIKE ? OR c.nombre LIKE ?)`;
-    params.push(`%${q}%`, `%${q}%`, `%${q}%`);
+    // Special case: "La Liga" should only match Spain's La Liga, not "Copa De La Liga" etc
+    if (q === "la liga") {
+      query += ` AND c.nombre = 'La Liga'`;
+    } else {
+      query += ` AND (el.nombre LIKE ? OR ev.nombre LIKE ? OR c.nombre LIKE ?)`;
+      params.push(`%${q}%`, `%${q}%`, `%${q}%`);
+    }
   }
 
   if (year) {
