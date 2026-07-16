@@ -30,6 +30,7 @@ export default function BuscarPage() {
   useEffect(() => {
     if (query.length < 2 && !yearFilter) {
       setPartidos([]);
+      setMatchingTeams([]);
       return;
     }
 
@@ -46,6 +47,26 @@ export default function BuscarPage() {
     // Use dropdown year filter, or year from query text
     const activeYear = yearFilter || yearFromQuery;
 
+    // If year filter is active, search on server for full history
+    if (activeYear) {
+      const timer = setTimeout(() => {
+        fetch(`/api/buscar?q=${encodeURIComponent(q || "")}&year=${activeYear}`)
+          .then((r) => r.json())
+          .then((data) => {
+            setPartidos(Array.isArray(data) ? data.slice(0, 30) : []);
+          });
+      }, 300);
+      // Find matching teams
+      if (q.length >= 2) {
+        const teamMatches = equipos.filter((e) => e.nombre.toLowerCase().includes(q)).slice(0, 5);
+        setMatchingTeams(teamMatches);
+      } else {
+        setMatchingTeams([]);
+      }
+      return () => clearTimeout(timer);
+    }
+
+    // No year filter - search locally from recent matches
     let filtered = allPartidos;
 
     if (q.length >= 2) {
