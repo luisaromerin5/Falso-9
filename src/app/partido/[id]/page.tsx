@@ -168,6 +168,52 @@ function RatingDistribution({ calificaciones }: { calificaciones: PartidoDetail[
   );
 }
 
+function EditableReview({ review, onUpdate }: { review: any; onUpdate: () => void }) {
+  const [editing, setEditing] = useState(false);
+  const [comentario, setComentario] = useState(review.comentario || "");
+
+  const saveEdit = async () => {
+    await fetch(`/api/calificaciones/${review.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ comentario }),
+    });
+    setEditing(false);
+    onUpdate();
+  };
+
+  const deleteReview = async () => {
+    if (confirm("¿Estás seguro de borrar tu review?")) {
+      await fetch(`/api/calificaciones/${review.id}`, { method: "DELETE" });
+      onUpdate();
+    }
+  };
+
+  if (editing) {
+    return (
+      <div className="mt-2 pt-2 border-t border-gray-700">
+        <textarea
+          value={comentario}
+          onChange={(e) => setComentario(e.target.value)}
+          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-orange-500 focus:outline-none resize-none"
+          rows={3}
+        />
+        <div className="flex gap-2 mt-2">
+          <button onClick={saveEdit} className="text-xs text-white bg-orange-500 px-3 py-1.5 rounded font-medium">Guardar</button>
+          <button onClick={() => setEditing(false)} className="text-xs text-gray-400 px-3 py-1.5 rounded">Cancelar</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex gap-3 mt-2 pt-2 border-t border-gray-700">
+      <button onClick={() => setEditing(true)} className="text-[10px] text-orange-400 hover:text-orange-300">Editar</button>
+      <button onClick={deleteReview} className="text-[10px] text-red-400 hover:text-red-300">Borrar</button>
+    </div>
+  );
+}
+
 export default function PartidoDetallePage() {
   const { id } = useParams();
   const { user } = useAuth();
@@ -411,20 +457,7 @@ export default function PartidoDetallePage() {
                     <span>👨‍⚖️ {cal.arbitraje}/10</span>
                   </div>
                   {user && cal.usuario === user.username && (
-                    <div className="flex gap-2 mt-2 pt-2 border-t border-gray-700">
-                      <button
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          if (confirm("¿Estás seguro de borrar tu review?")) {
-                            await fetch(`/api/calificaciones/${cal.id}`, { method: "DELETE" });
-                            fetchPartido();
-                          }
-                        }}
-                        className="text-[10px] text-red-400 hover:text-red-300"
-                      >
-                        Borrar review
-                      </button>
-                    </div>
+                    <EditableReview review={cal} onUpdate={fetchPartido} />
                   )}
                 </div>
               ))}
