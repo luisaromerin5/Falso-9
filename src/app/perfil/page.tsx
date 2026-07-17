@@ -128,15 +128,22 @@ function ProfileView() {
   const [diary, setDiary] = useState<DiaryEntry[]>([]);
   const [lists, setLists] = useState<any[]>([]);
   const [badges, setBadges] = useState<Array<{ name: string; icon: string; description: string }>>([]);
-  const [activeTab, setActiveTab] = useState<"vistos" | "watchlist" | "listas">("vistos");
+  const [myCompaneros, setMyCompaneros] = useState<any[]>([]);
+  const [mySeguidos, setMySeguidos] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<"vistos" | "watchlist" | "listas" | "companeros" | "seguidos">("vistos");
 
   useEffect(() => {
     Promise.all([
       fetch("/api/diario").then((r) => r.json()),
       fetch(`/api/listas?user=${user?.id}`).then((r) => r.json()),
-    ]).then(([d, l]) => {
+      fetch("/api/amigos").then((r) => r.json()),
+    ]).then(([d, l, relations]) => {
       setDiary(Array.isArray(d) ? d : []);
       setLists(Array.isArray(l) ? l : []);
+      if (relations && !relations.error) {
+        setMyCompaneros(Array.isArray(relations.compañeros) ? relations.compañeros : []);
+        setMySeguidos(Array.isArray(relations.seguidos) ? relations.seguidos : []);
+      }
 
       // Calculate badges
       const newBadges: Array<{ name: string; icon: string; description: string }> = [];
@@ -228,26 +235,26 @@ function ProfileView() {
 
       {/* Stats */}
       <div className="grid grid-cols-5 gap-2 mb-4">
-        <div className="text-center">
+        <button onClick={() => setActiveTab("vistos")} className="text-center">
           <p className="text-lg font-bold text-green-400">{stats?.vistos || 0}</p>
           <p className="text-[8px] text-gray-400">Vistos</p>
-        </div>
-        <div className="text-center">
+        </button>
+        <button onClick={() => setActiveTab("vistos")} className="text-center">
           <p className="text-lg font-bold text-blue-400">{stats?.reviews || 0}</p>
           <p className="text-[8px] text-gray-400">Reviews</p>
-        </div>
-        <div className="text-center">
+        </button>
+        <button onClick={() => setActiveTab("watchlist")} className="text-center">
           <p className="text-lg font-bold text-yellow-400">{stats?.watchlist || 0}</p>
           <p className="text-[8px] text-gray-400">Por ver</p>
-        </div>
-        <div className="text-center">
+        </button>
+        <button onClick={() => setActiveTab("companeros")} className="text-center">
           <p className="text-lg font-bold text-purple-400">{stats?.amigos || 0}</p>
           <p className="text-[8px] text-gray-400">Compañeros</p>
-        </div>
-        <div className="text-center">
+        </button>
+        <button onClick={() => setActiveTab("seguidos")} className="text-center">
           <p className="text-lg font-bold text-cyan-400">{stats?.seguidos || 0}</p>
           <p className="text-[8px] text-gray-400">Seguidos</p>
-        </div>
+        </button>
       </div>
 
       {/* Badges */}
@@ -267,30 +274,21 @@ function ProfileView() {
       )}
 
       {/* Diary tabs */}
-      <div className="flex gap-1 mb-4 bg-gray-800 rounded-lg p-1">
-        <button
-          onClick={() => setActiveTab("vistos")}
-          className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "vistos" ? "bg-orange-500 text-white" : "text-gray-400"
-          }`}
-        >
+      <div className="flex gap-1 mb-4 bg-gray-800 rounded-lg p-1 overflow-x-auto">
+        <button onClick={() => setActiveTab("vistos")} className={`flex-1 py-2 text-[10px] font-medium rounded-md transition-colors whitespace-nowrap px-2 ${activeTab === "vistos" ? "bg-orange-500 text-white" : "text-gray-400"}`}>
           Vistos ({vistos.length})
         </button>
-        <button
-          onClick={() => setActiveTab("watchlist")}
-          className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "watchlist" ? "bg-orange-500 text-white" : "text-gray-400"
-          }`}
-        >
+        <button onClick={() => setActiveTab("watchlist")} className={`flex-1 py-2 text-[10px] font-medium rounded-md transition-colors whitespace-nowrap px-2 ${activeTab === "watchlist" ? "bg-orange-500 text-white" : "text-gray-400"}`}>
           Por ver ({watchlist.length})
         </button>
-        <button
-          onClick={() => setActiveTab("listas")}
-          className={`flex-1 py-2 text-xs font-medium rounded-md transition-colors ${
-            activeTab === "listas" ? "bg-orange-500 text-white" : "text-gray-400"
-          }`}
-        >
+        <button onClick={() => setActiveTab("listas")} className={`flex-1 py-2 text-[10px] font-medium rounded-md transition-colors whitespace-nowrap px-2 ${activeTab === "listas" ? "bg-orange-500 text-white" : "text-gray-400"}`}>
           Listas ({lists.length})
+        </button>
+        <button onClick={() => setActiveTab("companeros")} className={`flex-1 py-2 text-[10px] font-medium rounded-md transition-colors whitespace-nowrap px-2 ${activeTab === "companeros" ? "bg-orange-500 text-white" : "text-gray-400"}`}>
+          Compañeros
+        </button>
+        <button onClick={() => setActiveTab("seguidos")} className={`flex-1 py-2 text-[10px] font-medium rounded-md transition-colors whitespace-nowrap px-2 ${activeTab === "seguidos" ? "bg-orange-500 text-white" : "text-gray-400"}`}>
+          Seguidos
         </button>
       </div>
 
@@ -350,6 +348,58 @@ function ProfileView() {
           ))
         )}
       </div>
+
+      {/* Compañeros tab */}
+      {activeTab === "companeros" && (
+        <div className="space-y-2">
+          {myCompaneros.length === 0 ? (
+            <div className="text-center py-6 text-gray-400">
+              <p className="text-sm">No tienes compañeros aún</p>
+            </div>
+          ) : (
+            myCompaneros.map((f: any) => (
+              <Link key={f.id} href={`/usuario/${f.username}`}>
+                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3 hover:border-gray-600 mb-2">
+                  {f.avatar_url ? (
+                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <p className="text-sm text-white font-medium">@{f.username}</p>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* Seguidos tab */}
+      {activeTab === "seguidos" && (
+        <div className="space-y-2">
+          {mySeguidos.length === 0 ? (
+            <div className="text-center py-6 text-gray-400">
+              <p className="text-sm">No sigues a nadie aún</p>
+            </div>
+          ) : (
+            mySeguidos.map((f: any) => (
+              <Link key={f.id} href={`/usuario/${f.username}`}>
+                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3 hover:border-gray-600 mb-2">
+                  {f.avatar_url ? (
+                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <p className="text-sm text-white font-medium">@{f.username}</p>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
+      )}
 
       {/* Logout */}
       <button
