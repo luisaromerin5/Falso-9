@@ -29,7 +29,10 @@ export async function GET(
   }
 
   const calificaciones = db.prepare(`
-    SELECT * FROM calificaciones WHERE partido_id = ? ORDER BY created_at DESC
+    SELECT c.*, u.avatar_color, u.avatar_url
+    FROM calificaciones c
+    LEFT JOIN usuarios u ON c.usuario_id = u.id
+    WHERE c.partido_id = ? ORDER BY c.created_at DESC
   `).all(Number(id));
 
   const promedios = db.prepare(`

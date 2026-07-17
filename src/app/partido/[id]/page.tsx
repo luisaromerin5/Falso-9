@@ -315,13 +315,17 @@ export default function PartidoDetallePage() {
           <p className="text-[11px] text-gray-400 mb-2">REVIEWED BY</p>
           <div className="flex gap-2 overflow-x-auto pb-1">
             {partido.calificaciones.map((c) => (
-              <div key={c.id} className="flex-shrink-0 flex flex-col items-center gap-0.5">
-                <div className="w-8 h-8 bg-gradient-to-br from-green-600 to-blue-600 rounded-full flex items-center justify-center text-[10px] font-bold text-white">
-                  {c.usuario.charAt(0).toUpperCase()}
-                </div>
+              <Link key={c.id} href={`/usuario/${c.usuario}`} className="flex-shrink-0 flex flex-col items-center gap-0.5">
+                {(c as any).avatar_url ? (
+                  <img src={(c as any).avatar_url} alt="" className="w-8 h-8 rounded-full object-cover" />
+                ) : (
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style={{ background: (c as any).avatar_color || "#f97316" }}>
+                    {c.usuario.charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <span className="text-[8px] text-gray-400 max-w-[40px] truncate">@{c.usuario}</span>
                 <span className="text-[9px] text-orange-400 font-bold">{c.general}</span>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -379,9 +383,13 @@ export default function PartidoDetallePage() {
                 <div key={cal.id} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
                   <div className="flex items-center gap-2 mb-2">
                     <Link href={`/usuario/${cal.usuario}`} className="flex items-center gap-2">
-                      <div className="w-7 h-7 bg-gradient-to-br from-orange-600 to-orange-400 rounded-full flex items-center justify-center text-[10px] font-bold text-white">
-                        {cal.usuario.charAt(0).toUpperCase()}
-                      </div>
+                      {(cal as any).avatar_url ? (
+                        <img src={(cal as any).avatar_url} alt="" className="w-7 h-7 rounded-full object-cover flex-shrink-0" />
+                      ) : (
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style={{ background: (cal as any).avatar_color || "#f97316" }}>
+                          {cal.usuario.charAt(0).toUpperCase()}
+                        </div>
+                      )}
                       <span className="text-sm font-medium text-white hover:text-orange-400">@{cal.usuario}</span>
                     </Link>
                     <div className="flex-1"></div>
