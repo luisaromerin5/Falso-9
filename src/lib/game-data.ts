@@ -39,7 +39,7 @@ export const PLAYERS: GamePlayer[] = [
   { id: 27, name: "Son Heung-min", club: "Tottenham", nationality: "South Korea", position: "Forward", marketValue: 50, photo: "https://media.api-sports.io/football/players/186.png" },
   { id: 28, name: "Virgil van Dijk", club: "Liverpool", nationality: "Netherlands", position: "Defender", marketValue: 30 , photo: "https://media.api-sports.io/football/players/647.png" },
   { id: 29, name: "Thibaut Courtois", club: "Real Madrid", nationality: "Belgium", position: "Goalkeeper", marketValue: 30 , photo: "https://media.api-sports.io/football/players/730.png" },
-  { id: 30, name: "Alisson", club: "Liverpool", nationality: "Brazil", position: "Goalkeeper", marketValue: 35 , photo: "https://media.api-sports.io/football/players/2779.png" },
+  { id: 30, name: "Alisson", club: "Liverpool", nationality: "Brazil", position: "Goalkeeper", marketValue: 35 , photo: "https://media.api-sports.io/football/players/280.png" },
   { id: 31, name: "Dani Olmo", club: "Barcelona", nationality: "Spain", position: "Midfielder", marketValue: 60 , photo: "https://media.api-sports.io/football/players/19544.png" },
   { id: 32, name: "William Saliba", club: "Arsenal", nationality: "France", position: "Defender", marketValue: 90 , photo: "https://media.api-sports.io/football/players/22090.png" },
   { id: 33, name: "Nico Williams", club: "Athletic Club", nationality: "Spain", position: "Forward", marketValue: 70 , photo: "https://media.api-sports.io/football/players/183799.png" },
