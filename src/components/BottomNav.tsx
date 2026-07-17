@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/AuthContext";
 
 export default function BottomNav() {
   const pathname = usePathname();
   const { user } = useAuth();
+  const [pendingCount, setPendingCount] = useState(0);
+
+  useEffect(() => {
+    if (!user) return;
+    fetch("/api/amigos?type=pending")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && data.received) setPendingCount(data.received.length);
+        else if (Array.isArray(data)) setPendingCount(data.length);
+      })
+      .catch(() => {});
+  }, [user, pathname]);
 
   const navItems = user
     ? [
@@ -51,7 +64,12 @@ export default function BottomNav() {
               ) : item.href === "/" ? (
                 <img src="/icon-home.png" alt="" className="w-6 h-6 object-contain" />
               ) : item.href === "/actividad" ? (
-                <img src="/icon-companeros.png" alt="" className="w-6 h-6 object-contain" />
+                <div className="relative">
+                  <img src="/icon-companeros.png" alt="" className="w-6 h-6 object-contain" />
+                  {pendingCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[7px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{pendingCount}</span>
+                  )}
+                </div>
               ) : item.href === "/journal" ? (
                 <img src="/icon-journal.png" alt="" className="w-6 h-6 object-contain" />
               ) : item.href === "/juegos" ? (
