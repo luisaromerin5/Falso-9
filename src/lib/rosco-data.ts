@@ -39,8 +39,8 @@ export const ROSCO_SETS: RoscoQuestion[][] = [
   [
     { letter: "A", question: "Club inglés de Londres conocido como 'The Gunners'", answer: "Arsenal", aliases: [] },
     { letter: "B", question: "Club español más exitoso de Cataluña", answer: "Barcelona", aliases: ["barca"] },
-    { letter: "C", question: "Delantero colombiano que jugó en Real Madrid y Bayern", answer: "James", aliases: ["james rodriguez"] },
-    { letter: "D", question: "Defensa central holandés del Liverpool", answer: "Van Dijk", aliases: ["virgil van dijk"] },
+    { letter: "C", question: "Lateral derecho del Real Madrid, capitán de España", answer: "Carvajal", aliases: ["dani carvajal"] },
+    { letter: "D", question: "Mediocampista belga del Manchester City, genio creativo", answer: "De Bruyne", aliases: ["kevin de bruyne"] },
     { letter: "E", question: "País sudamericano con 2 Copas América y sede en 2024", answer: "Ecuador", aliases: [] },
     { letter: "F", question: "Exdelantero portugués, Balón de Oro 2000, jugó en Real Madrid", answer: "Figo", aliases: ["luis figo"] },
     { letter: "G", question: "Mediocampista español del Barcelona lesionado en 2023", answer: "Gavi", aliases: [] },
