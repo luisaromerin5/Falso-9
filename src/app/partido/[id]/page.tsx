@@ -378,12 +378,13 @@ export default function PartidoDetallePage() {
               {partido.calificaciones.map((cal) => (
                 <div key={cal.id} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 bg-gradient-to-br from-green-600 to-blue-600 rounded-full flex items-center justify-center text-[10px] font-bold text-white">
-                      {cal.usuario.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="flex-1">
-                      <span className="text-sm font-medium text-white">@{cal.usuario}</span>
-                    </div>
+                    <Link href={`/usuario/${cal.usuario}`} className="flex items-center gap-2">
+                      <div className="w-7 h-7 bg-gradient-to-br from-orange-600 to-orange-400 rounded-full flex items-center justify-center text-[10px] font-bold text-white">
+                        {cal.usuario.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="text-sm font-medium text-white hover:text-orange-400">@{cal.usuario}</span>
+                    </Link>
+                    <div className="flex-1"></div>
                     <div className="flex items-center gap-1">
                       {Array.from({ length: 5 }, (_, i) => (
                         <span key={i} className={`text-sm ${i < Math.round(cal.general / 2) ? "text-orange-400" : "text-gray-600"}`}>
