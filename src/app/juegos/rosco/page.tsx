@@ -214,12 +214,7 @@ export default function RoscoPage() {
             );
           })}
         </div>
-        <button
-          onClick={() => { setGameState("ready"); const s = new Map<string, LetterState>(); questions.forEach(q => s.set(q.letter, "pending")); setStates(s); }}
-          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-sm"
-        >
-          Jugar otra vez
-        </button>
+        <p className="text-xs text-gray-400 text-center mt-4">Vuelve mañana para un nuevo rosco</p>
         </>
       )}
     </div>

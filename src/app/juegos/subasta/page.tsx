@@ -155,13 +155,9 @@ export default function SubastaPage() {
             </div>
           ))}
         </div>
+        <p className="text-xs text-gray-400 text-center mt-4">Vuelve mañana para un nuevo reto</p>
 
-        <button
-          onClick={() => setGameState("budget")}
-          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-sm"
-        >
-          Jugar de nuevo
-        </button>
+        <GameLeaderboard game="subasta" currentScore={remaining} />
 
         <GameLeaderboard game="subasta" currentScore={remaining} />
       </div>
