@@ -19,11 +19,15 @@ interface UserProfile {
     created_at: string;
     equipo_local: string;
     equipo_visitante: string;
+    logo_local: string | null;
+    logo_visitante: string | null;
     goles_local: number;
     goles_visitante: number;
     competicion: string;
   }>;
-  stats: { reviews: number; vistos: number };
+  stats: { reviews: number; vistos: number; watchlist: number; amigos: number; seguidos: number };
+  companeros: Array<{ id: number; username: string; avatar_color: string; avatar_url: string | null }>;
+  seguidos: Array<{ id: number; username: string; avatar_color: string; avatar_url: string | null }>;
 }
 
 export default function UserProfilePage() {
@@ -32,6 +36,7 @@ export default function UserProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [relationship, setRelationship] = useState<"none" | "friend" | "following" | "pending">("none");
+  const [activeTab, setActiveTab] = useState<"reviews" | "companeros" | "seguidos">("reviews");
 
   useEffect(() => {
     fetch(`/api/user/${username}`)
@@ -125,7 +130,40 @@ export default function UserProfilePage() {
         </div>
       )}
 
-      {/* Reviews */}
+      {/* Stats */}
+      <div className="grid grid-cols-5 gap-2 mb-4">
+        <button onClick={() => setActiveTab("reviews")} className="text-center">
+          <p className="text-lg font-bold text-green-400">{profile.stats.vistos || 0}</p>
+          <p className="text-[8px] text-gray-400">Vistos</p>
+        </button>
+        <button onClick={() => setActiveTab("reviews")} className="text-center">
+          <p className="text-lg font-bold text-blue-400">{profile.stats.reviews || 0}</p>
+          <p className="text-[8px] text-gray-400">Reviews</p>
+        </button>
+        <button className="text-center">
+          <p className="text-lg font-bold text-yellow-400">{profile.stats.watchlist || 0}</p>
+          <p className="text-[8px] text-gray-400">Por ver</p>
+        </button>
+        <button onClick={() => setActiveTab("companeros")} className="text-center">
+          <p className="text-lg font-bold text-purple-400">{profile.stats.amigos || 0}</p>
+          <p className="text-[8px] text-gray-400">Compañeros</p>
+        </button>
+        <button onClick={() => setActiveTab("seguidos")} className="text-center">
+          <p className="text-lg font-bold text-cyan-400">{profile.stats.seguidos || 0}</p>
+          <p className="text-[8px] text-gray-400">Seguidos</p>
+        </button>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 mb-4 bg-gray-800 rounded-lg p-1">
+        <button onClick={() => setActiveTab("reviews")} className={`flex-1 py-2 text-xs font-medium rounded-md ${activeTab === "reviews" ? "bg-orange-500 text-white" : "text-gray-400"}`}>Reviews</button>
+        <button onClick={() => setActiveTab("companeros")} className={`flex-1 py-2 text-xs font-medium rounded-md ${activeTab === "companeros" ? "bg-orange-500 text-white" : "text-gray-400"}`}>Compañeros</button>
+        <button onClick={() => setActiveTab("seguidos")} className={`flex-1 py-2 text-xs font-medium rounded-md ${activeTab === "seguidos" ? "bg-orange-500 text-white" : "text-gray-400"}`}>Seguidos</button>
+      </div>
+
+      {/* Reviews tab */}
+      {activeTab === "reviews" && (
+        <>
       <h2 className="text-sm font-bold text-gray-300 mb-3">Reviews</h2>
       {profile.reviews.length === 0 ? (
         <p className="text-center text-gray-500 text-sm py-4">Sin reviews aún</p>
@@ -135,9 +173,13 @@ export default function UserProfilePage() {
             <Link key={r.id} href={`/partido/${r.partido_id}`}>
               <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 hover:border-gray-600 mb-2">
                 <div className="flex justify-between items-center mb-1">
-                  <p className="text-xs text-white font-medium truncate flex-1">
-                    {r.equipo_local} {r.goles_local}-{r.goles_visitante} {r.equipo_visitante}
-                  </p>
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    {r.logo_local && <img src={r.logo_local} alt="" className="w-4 h-4" />}
+                    <p className="text-xs text-white font-medium truncate">
+                      {r.equipo_local} {r.goles_local}-{r.goles_visitante} {r.equipo_visitante}
+                    </p>
+                    {r.logo_visitante && <img src={r.logo_visitante} alt="" className="w-4 h-4" />}
+                  </div>
                   <span className="text-sm font-bold text-orange-400 ml-2">{r.general}</span>
                 </div>
                 <p className="text-[10px] text-gray-400">{r.competicion} • {r.created_at.split("T")[0].split(" ")[0]}</p>
@@ -145,6 +187,56 @@ export default function UserProfilePage() {
               </div>
             </Link>
           ))}
+        </div>
+      )}
+        </>
+      )}
+
+      {/* Compañeros tab */}
+      {activeTab === "companeros" && (
+        <div className="space-y-2">
+          {(!profile.companeros || profile.companeros.length === 0) ? (
+            <p className="text-center text-gray-500 text-sm py-4">Sin compañeros</p>
+          ) : (
+            profile.companeros.map((f) => (
+              <Link key={f.id} href={`/usuario/${f.username}`}>
+                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3 hover:border-gray-600 mb-2">
+                  {f.avatar_url ? (
+                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <p className="text-sm text-white font-medium">@{f.username}</p>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* Seguidos tab */}
+      {activeTab === "seguidos" && (
+        <div className="space-y-2">
+          {(!profile.seguidos || profile.seguidos.length === 0) ? (
+            <p className="text-center text-gray-500 text-sm py-4">No sigue a nadie</p>
+          ) : (
+            profile.seguidos.map((f) => (
+              <Link key={f.id} href={`/usuario/${f.username}`}>
+                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-3 hover:border-gray-600 mb-2">
+                  {f.avatar_url ? (
+                    <img src={f.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: f.avatar_color }}>
+                      {f.username.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <p className="text-sm text-white font-medium">@{f.username}</p>
+                </div>
+              </Link>
+            ))
+          )}
         </div>
       )}
     </div>
