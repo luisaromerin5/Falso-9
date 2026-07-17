@@ -14,7 +14,17 @@ export default function RoscoPage() {
   const [input, setInput] = useState("");
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes
   const [gameState, setGameState] = useState<"ready" | "playing" | "done">("ready");
+  const [alreadyPlayed, setAlreadyPlayed] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const lastPlayed = localStorage.getItem("rosco_last_date");
+    const today = new Date().toISOString().split("T")[0];
+    if (lastPlayed === today) {
+      setAlreadyPlayed(true);
+      setGameState("done");
+    }
+  }, []);
 
   useEffect(() => {
     const rosco = getTodaysRosco();
@@ -42,6 +52,7 @@ export default function RoscoPage() {
   const endGame = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
     setGameState("done");
+    localStorage.setItem("rosco_last_date", new Date().toISOString().split("T")[0]);
   };
 
   const findNextPending = (from: number): number => {

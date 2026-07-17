@@ -73,9 +73,19 @@ export default function AdivinaQuienPage() {
   const [gameState, setGameState] = useState<"playing" | "won" | "lost">("playing");
   const [message, setMessage] = useState("");
   const [guessAttempts, setGuessAttempts] = useState(2);
+  const [alreadyPlayed, setAlreadyPlayed] = useState(false);
 
   useEffect(() => {
-    startNewGame();
+    const lastPlayed = localStorage.getItem("adivina_last_date");
+    const today = new Date().toISOString().split("T")[0];
+    if (lastPlayed === today) {
+      setAlreadyPlayed(true);
+      setGameState("lost");
+      const savedScore = localStorage.getItem("adivina_today_score");
+      if (savedScore) setScore(Number(savedScore));
+    } else {
+      startNewGame();
+    }
   }, []);
 
   const startNewGame = () => {
@@ -110,12 +120,16 @@ export default function AdivinaQuienPage() {
     if (playerName.includes(normalized) || normalized.includes(playerName) || 
         normalized.includes(playerName.split(" ").pop()!.toLowerCase())) {
       setGameState("won");
+      localStorage.setItem("adivina_last_date", new Date().toISOString().split("T")[0]);
+      localStorage.setItem("adivina_today_score", String((10 - questionsLeft) * 10 + guessAttempts * 5));
     } else {
       const remaining = guessAttempts - 1;
       setGuessAttempts(remaining);
       if (remaining <= 0) {
         setMessage("Sin intentos de adivinanza!");
         setGameState("lost");
+        localStorage.setItem("adivina_last_date", new Date().toISOString().split("T")[0]);
+        localStorage.setItem("adivina_today_score", "0");
       } else {
         setMessage(`Incorrecto! Te queda ${remaining} intento${remaining > 1 ? "s" : ""} de adivinar.`);
       }

@@ -40,7 +40,14 @@ function getPlayersForPosition(position: string, maxPrice: number, exclude: numb
 type GameState = "budget" | "picking" | "won" | "lost";
 
 export default function SubastaPage() {
-  const [gameState, setGameState] = useState<GameState>("budget");
+  const [gameState, setGameState] = useState<GameState>(() => {
+    if (typeof window !== "undefined") {
+      const lastPlayed = localStorage.getItem("subasta_last_date");
+      const today = new Date().toISOString().split("T")[0];
+      if (lastPlayed === today) return "won";
+    }
+    return "budget";
+  });
   const [budget, setBudget] = useState(0);
   const [remaining, setRemaining] = useState(0);
   const [team, setTeam] = useState<GamePlayer[]>([]);
@@ -88,6 +95,7 @@ export default function SubastaPage() {
 
     if (nextSlot >= 11) {
       setGameState("won");
+      localStorage.setItem("subasta_last_date", new Date().toISOString().split("T")[0]);
       return;
     }
 

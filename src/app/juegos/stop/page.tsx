@@ -12,10 +12,20 @@ export default function StopPage() {
   const [results, setResults] = useState<Record<string, boolean> | null>(null);
   const [timeLeft, setTimeLeft] = useState(90);
   const [gameState, setGameState] = useState<"ready" | "playing" | "done">("ready");
+  const [alreadyPlayed, setAlreadyPlayed] = useState(false);
   const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">("medium");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const DIFFICULTY_TIMES = { easy: 120, medium: 90, hard: 60 };
+
+  useEffect(() => {
+    const lastPlayed = localStorage.getItem("stop_last_date");
+    const today = new Date().toISOString().split("T")[0];
+    if (lastPlayed === today) {
+      setAlreadyPlayed(true);
+      setGameState("done");
+    }
+  }, []);
 
   const startGame = () => {
     const seed = getDailySeed();
@@ -39,6 +49,7 @@ export default function StopPage() {
   const endGame = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
     setGameState("done");
+    localStorage.setItem("stop_last_date", new Date().toISOString().split("T")[0]);
 
     // Validate all answers
     const newResults: Record<string, boolean> = {};
