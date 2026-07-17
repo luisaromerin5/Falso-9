@@ -12,7 +12,7 @@ export interface GamePlayer {
 export const PLAYERS: GamePlayer[] = [
   { id: 1, name: "Kylian Mbappé", club: "Real Madrid", nationality: "France", position: "Forward", marketValue: 180, photo: "https://media.api-sports.io/football/players/278.png" },
   { id: 2, name: "Erling Haaland", club: "Manchester City", nationality: "Norway", position: "Forward", marketValue: 170, photo: "https://media.api-sports.io/football/players/1100.png" },
-  { id: 3, name: "Vinicius Jr", club: "Real Madrid", nationality: "Brazil", position: "Forward", marketValue: 150, photo: "https://media.api-sports.io/football/players/5765.png" },
+  { id: 3, name: "Vinicius Jr", club: "Real Madrid", nationality: "Brazil", position: "Forward", marketValue: 150, photo: "https://media.api-sports.io/football/players/762.png" },
   { id: 4, name: "Jude Bellingham", club: "Real Madrid", nationality: "England", position: "Midfielder", marketValue: 150, photo: "https://media.api-sports.io/football/players/129718.png" },
   { id: 5, name: "Bukayo Saka", club: "Arsenal", nationality: "England", position: "Forward", marketValue: 140, photo: "https://media.api-sports.io/football/players/1460.png" },
   { id: 6, name: "Phil Foden", club: "Manchester City", nationality: "England", position: "Midfielder", marketValue: 130, photo: "https://media.api-sports.io/football/players/631.png" },
