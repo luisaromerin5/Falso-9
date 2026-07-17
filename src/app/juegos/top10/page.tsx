@@ -14,9 +14,18 @@ export default function Top10Page() {
   const [messageType, setMessageType] = useState<"success" | "error" | "info">("info");
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [alreadyPlayed, setAlreadyPlayed] = useState(false);
 
   useEffect(() => {
     setTopic(getTodaysTopic());
+    const lastPlayed = localStorage.getItem("top10_last_date");
+    const today = new Date().toISOString().split("T")[0];
+    if (lastPlayed === today) {
+      setAlreadyPlayed(true);
+      setFinished(true);
+      const savedScore = localStorage.getItem("top10_today_score");
+      if (savedScore) setScore(Number(savedScore));
+    }
   }, []);
 
   if (!topic) return null;
@@ -42,6 +51,8 @@ export default function Top10Page() {
 
         if (newGuessed.size === 10) {
           setFinished(true);
+          localStorage.setItem("top10_last_date", new Date().toISOString().split("T")[0]);
+          localStorage.setItem("top10_today_score", String(score + points));
         }
         return;
       }
@@ -77,6 +88,8 @@ export default function Top10Page() {
   };
 
   const endGame = () => {
+    localStorage.setItem("top10_last_date", new Date().toISOString().split("T")[0]);
+    localStorage.setItem("top10_today_score", String(score));
     setFinished(true);
   };
 
