@@ -82,7 +82,7 @@ export default function AdivinaQuienPage() {
       setAlreadyPlayed(true);
       setGameState("lost");
       const savedScore = localStorage.getItem("adivina_today_score");
-      if (savedScore) setScore(Number(savedScore));
+      
     } else {
       startNewGame();
     }
