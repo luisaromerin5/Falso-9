@@ -214,6 +214,91 @@ function EditableReview({ review, onUpdate }: { review: any; onUpdate: () => voi
   );
 }
 
+function ReplySection({ calificacionId }: { calificacionId: number }) {
+  const { user } = useAuth();
+  const [replies, setReplies] = useState<any[]>([]);
+  const [showReply, setShowReply] = useState(false);
+  const [mensaje, setMensaje] = useState("");
+  const [loaded, setLoaded] = useState(false);
+
+  const loadReplies = () => {
+    fetch(`/api/respuestas?calificacion_id=${calificacionId}`)
+      .then((r) => r.json())
+      .then((data) => { setReplies(Array.isArray(data) ? data : []); setLoaded(true); });
+  };
+
+  const submitReply = async () => {
+    if (!mensaje.trim()) return;
+    await fetch("/api/respuestas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ calificacion_id: calificacionId, mensaje: mensaje.trim() }),
+    });
+    setMensaje("");
+    setShowReply(false);
+    loadReplies();
+  };
+
+  return (
+    <div className="mt-2">
+      {/* Show/load replies button */}
+      {!loaded && (
+        <button onClick={loadReplies} className="text-[10px] text-gray-400 hover:text-gray-300">
+          Ver respuestas
+        </button>
+      )}
+
+      {/* Replies list */}
+      {loaded && replies.length > 0 && (
+        <div className="ml-4 mt-2 space-y-2 border-l-2 border-gray-700 pl-3">
+          {replies.map((r: any) => (
+            <div key={r.id} className="flex gap-2">
+              {r.avatar_url ? (
+                <img src={r.avatar_url} alt="" className="w-5 h-5 rounded-full object-cover flex-shrink-0 mt-0.5" />
+              ) : (
+                <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold text-white flex-shrink-0 mt-0.5" style={{ background: r.avatar_color || "#f97316" }}>
+                  {r.usuario.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <span className="text-[10px] text-orange-400 font-medium">@{r.usuario}</span>
+                <p className="text-xs text-gray-300">{r.mensaje}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {loaded && replies.length === 0 && !showReply && (
+        <span className="text-[10px] text-gray-500">Sin respuestas</span>
+      )}
+
+      {/* Reply button + form */}
+      {user && !showReply && (
+        <button onClick={() => { setShowReply(true); if (!loaded) loadReplies(); }} className="text-[10px] text-orange-400 hover:text-orange-300 ml-2">
+          Responder
+        </button>
+      )}
+
+      {showReply && (
+        <div className="mt-2 ml-4">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={mensaje}
+              onChange={(e) => setMensaje(e.target.value)}
+              placeholder="Escribe tu respuesta..."
+              className="flex-1 bg-gray-900 border border-gray-600 rounded-lg px-2 py-1.5 text-xs text-white placeholder-gray-500 focus:border-orange-500 focus:outline-none"
+              onKeyDown={(e) => { if (e.key === "Enter") submitReply(); }}
+            />
+            <button onClick={submitReply} className="text-xs text-white bg-orange-500 px-2 py-1.5 rounded font-medium">Enviar</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function PartidoDetallePage() {
   const { id } = useParams();
   const { user } = useAuth();
@@ -459,6 +544,7 @@ export default function PartidoDetallePage() {
                   {user && cal.usuario === user.username && (
                     <EditableReview review={cal} onUpdate={fetchPartido} />
                   )}
+                  <ReplySection calificacionId={cal.id} />
                 </div>
               ))}
             </div>
