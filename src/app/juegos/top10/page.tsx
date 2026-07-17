@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getTodaysTopic, checkAnswer, Topic, TopicAnswer } from "@/lib/topics-data";
 import GameLeaderboard from "@/components/GameLeaderboard";
+import AlreadyPlayed from "@/components/AlreadyPlayed";
 
 export default function Top10Page() {
   const [topic, setTopic] = useState<Topic | null>(null);
@@ -27,6 +28,8 @@ export default function Top10Page() {
       if (savedScore) setScore(Number(savedScore));
     }
   }, []);
+
+  if (alreadyPlayed) return <AlreadyPlayed game="top10" score={score} title="Top 10" />;
 
   if (!topic) return null;
 
