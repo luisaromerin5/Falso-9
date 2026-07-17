@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PLAYERS, GamePlayer } from "@/lib/game-data";
 import { getDailySeed, seededShuffle } from "@/lib/daily-seed";
 import GameLeaderboard from "@/components/GameLeaderboard";
+import AlreadyPlayed from "@/components/AlreadyPlayed";
 
 const FORMATION = [
   { position: "Goalkeeper", label: "Portero", count: 1 },
@@ -109,6 +110,10 @@ export default function SubastaPage() {
 
     setOptions(nextOptions);
   };
+
+  // Check if already played
+  const alreadyPlayedSubasta = typeof window !== "undefined" && localStorage.getItem("subasta_last_date") === new Date().toISOString().split("T")[0];
+  if (alreadyPlayedSubasta && gameState === "budget") return <AlreadyPlayed game="subasta" score={0} title="Subasta" />;
 
   // Budget selection
   if (gameState === "budget") {

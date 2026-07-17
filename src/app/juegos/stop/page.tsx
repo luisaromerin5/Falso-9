@@ -5,6 +5,7 @@ import Link from "next/link";
 import { STOP_CATEGORIES, VALID_LETTERS, VALID_ANSWERS, validateAnswer } from "@/lib/stop-data";
 import { getDailySeed } from "@/lib/daily-seed";
 import GameLeaderboard from "@/components/GameLeaderboard";
+import AlreadyPlayed from "@/components/AlreadyPlayed";
 
 export default function StopPage() {
   const [letter, setLetter] = useState("");
@@ -62,6 +63,8 @@ export default function StopPage() {
 
   const correctCount = results ? Object.values(results).filter(Boolean).length : 0;
   const allCorrect = correctCount === 8;
+
+  if (alreadyPlayed) return <AlreadyPlayed game="stop" score={0} title="Stop / Basta" />;
 
   // Ready screen
   if (gameState === "ready") {

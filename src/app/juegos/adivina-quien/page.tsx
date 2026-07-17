@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getDailySeed } from "@/lib/daily-seed";
 import GameLeaderboard from "@/components/GameLeaderboard";
+import AlreadyPlayed from "@/components/AlreadyPlayed";
 
 interface GuessPlayer {
   name: string;
@@ -136,6 +137,8 @@ export default function AdivinaQuienPage() {
     }
     setGuessInput("");
   };
+
+  if (alreadyPlayed) return <AlreadyPlayed game="adivina-quien" score={0} title="Adivina Quién" />;
 
   if (!secretPlayer) return null;
 

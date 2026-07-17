@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { getTodaysRosco, checkRoscoAnswer, RoscoQuestion } from "@/lib/rosco-data";
 import GameLeaderboard from "@/components/GameLeaderboard";
+import AlreadyPlayed from "@/components/AlreadyPlayed";
 
 type LetterState = "pending" | "correct" | "wrong" | "skipped";
 
@@ -106,6 +107,8 @@ export default function RoscoPage() {
 
   const correctCount = Array.from(states.values()).filter((s) => s === "correct").length;
   const wrongCount = Array.from(states.values()).filter((s) => s === "wrong").length;
+
+  if (alreadyPlayed) return <AlreadyPlayed game="rosco" score={0} title="Rosco" />;
 
   if (questions.length === 0) return null;
 
