@@ -170,6 +170,7 @@ function RatingDistribution({ calificaciones }: { calificaciones: PartidoDetail[
 
 export default function PartidoDetallePage() {
   const { id } = useParams();
+  const { user } = useAuth();
   const [partido, setPartido] = useState<PartidoDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"reviews" | "details" | "stats">("reviews");
@@ -409,6 +410,22 @@ export default function PartidoDetallePage() {
                     <span>🎯 {cal.calidad}/10</span>
                     <span>👨‍⚖️ {cal.arbitraje}/10</span>
                   </div>
+                  {user && cal.usuario === user.username && (
+                    <div className="flex gap-2 mt-2 pt-2 border-t border-gray-700">
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          if (confirm("¿Estás seguro de borrar tu review?")) {
+                            await fetch(`/api/calificaciones/${cal.id}`, { method: "DELETE" });
+                            fetchPartido();
+                          }
+                        }}
+                        className="text-[10px] text-red-400 hover:text-red-300"
+                      >
+                        Borrar review
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
