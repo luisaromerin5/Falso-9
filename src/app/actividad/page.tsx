@@ -9,6 +9,7 @@ interface FeedItem {
   partido_id: number;
   usuario: string;
   avatar_color: string;
+  avatar_url: string | null;
   general: number;
   emocion: number;
   calidad: number;
@@ -233,12 +234,16 @@ export default function AmigosPage() {
                 <div key={item.id} className="bg-gray-800 rounded-xl p-4 border border-gray-700">
                   {/* User header */}
                   <div className="flex items-center gap-2 mb-3">
-                    <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
-                      style={{ background: item.avatar_color }}
-                    >
-                      {item.usuario.charAt(0).toUpperCase()}
-                    </div>
+                    {item.avatar_url ? (
+                      <img src={item.avatar_url} alt="" className="w-7 h-7 rounded-full object-cover flex-shrink-0" />
+                    ) : (
+                      <div
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+                        style={{ background: item.avatar_color }}
+                      >
+                        {item.usuario.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                     <div className="flex-1">
                       <span className="text-sm font-medium text-white">@{item.usuario}</span>
                       <span className="text-[10px] text-gray-500 ml-2">

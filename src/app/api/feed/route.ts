@@ -21,6 +21,7 @@ export async function GET() {
       c.comentario,
       c.created_at,
       u.avatar_color,
+      u.avatar_url,
       CASE 
         WHEN a.id IS NOT NULL THEN 'compañero'
         ELSE 'seguido'
