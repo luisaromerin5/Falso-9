@@ -32,7 +32,7 @@ export const ROSCO_SETS: RoscoQuestion[][] = [
     { letter: "V", question: "Extremo brasileño del Real Madrid", answer: "Vinicius", aliases: ["vinicius jr", "vini", "vini jr"] },
     { letter: "W", question: "Mediocampista alemán del Bayer Leverkusen, joven estrella", answer: "Wirtz", aliases: ["florian wirtz"] },
     { letter: "X", question: "Exentrenador del Barcelona, leyenda como jugador y DT", answer: "Xavi", aliases: ["xavi hernandez"] },
-    { letter: "Y", question: "Portero camerunés que jugó en Barcelona", answer: "Yaoundé", aliases: [] },
+    { letter: "Y", question: "Extremo español del Barcelona nacido en 2007, campeón Euro 2024", answer: "Yamal", aliases: ["lamine yamal"] },
     { letter: "Z", question: "Entrenador francés que ganó 3 Champions seguidas con Real Madrid", answer: "Zidane", aliases: ["zinedine zidane", "zizou"] },
   ],
   // Set 2
