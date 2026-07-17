@@ -137,10 +137,11 @@ export default function HigherLowerPage() {
           {/* Base player (left/top) */}
           <div className="bg-gray-800 rounded-xl p-4 border border-gray-700">
             <div className="text-center">
+              {basePlayer.photo && <img src={basePlayer.photo} alt="" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />}
               <p className="text-lg font-bold text-white">{basePlayer.name}</p>
               <p className="text-xs text-gray-400">{basePlayer.club} • {basePlayer.nationality}</p>
               <p className="text-[10px] text-gray-500">{basePlayer.position}</p>
-              <p className="text-2xl font-black text-green-400 mt-2">€{basePlayer.marketValue}M</p>
+              <p className="text-2xl font-black text-orange-400 mt-2">€{basePlayer.marketValue}M</p>
             </div>
           </div>
 
@@ -152,6 +153,7 @@ export default function HigherLowerPage() {
           {/* Compare player (right/bottom) */}
           <div className={`bg-gray-800 rounded-xl p-4 border ${revealed ? (correct ? "border-green-500" : "border-red-500") : "border-gray-700"}`}>
             <div className="text-center">
+              {comparePlayer.photo && <img src={comparePlayer.photo} alt="" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />}
               <p className="text-lg font-bold text-white">{comparePlayer.name}</p>
               <p className="text-xs text-gray-400">{comparePlayer.club} • {comparePlayer.nationality}</p>
               <p className="text-[10px] text-gray-500">{comparePlayer.position}</p>
