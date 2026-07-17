@@ -249,11 +249,17 @@ export function validateAnswer(category: string, letter: string, answer: string)
   if (!validList) return false;
 
   const normalized = normalizeForStop(answer);
+  if (normalized.length < 2) return false;
 
   // Direct match against valid list
   if (validList.some((valid) => {
     const normalizedValid = normalizeForStop(valid);
-    return normalizedValid.includes(normalized) || normalized.includes(normalizedValid);
+    // Full match or partial match
+    if (normalizedValid.includes(normalized) || normalized.includes(normalizedValid)) return true;
+    // Match individual words (first name or last name)
+    const words = normalizedValid.split(" ");
+    if (words.some(w => w.length >= 3 && (w === normalized || normalized.includes(w) || w.includes(normalized)))) return true;
+    return false;
   })) return true;
 
   // For country category, also check translations
