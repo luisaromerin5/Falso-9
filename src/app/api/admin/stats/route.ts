@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const key = searchParams.get("key");
 
-  if (key !== "YHLQMDLGyMESSI853$") {
+  if (key !== process.env.ADMIN_KEY) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 

@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { getDb } from "./db";
 import { cookies } from "next/headers";
 
-const JWT_SECRET = process.env.JWT_SECRET || "falso9-production-secret-2026";
+const JWT_SECRET = process.env.JWT_SECRET!;
 const TOKEN_NAME = "falso9_token";
 
 export interface User {

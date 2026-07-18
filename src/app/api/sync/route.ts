@@ -2,12 +2,10 @@ import { syncLeagueMatches, syncMatchesByDate, LEAGUES } from "@/lib/football-ap
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  // Protect sync from abuse
+  // Protect sync - require admin key from env
   const { searchParams } = new URL(request.url);
   const adminKey = searchParams.get("key");
-  const referer = request.headers.get("referer") || "";
-  const isInternal = referer.includes("falso-9") || referer.includes("localhost") || adminKey === "YHLQMDLGyMESSI853$";
-  if (!isInternal) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  if (adminKey !== process.env.ADMIN_KEY) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
   const apiKey = process.env.API_FOOTBALL_KEY;
 
