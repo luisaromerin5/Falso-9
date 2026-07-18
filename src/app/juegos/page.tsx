@@ -45,6 +45,12 @@ const GAMES = [
     description: "Responde una pregunta por cada letra del abecedario",
     available: true,
   },
+  {
+    id: "cabecitas",
+    name: "Cabecitas",
+    description: "Mantén la pelota en el aire con cabezazos",
+    available: true,
+  },
 ];
 
 export default function GamesPage() {
