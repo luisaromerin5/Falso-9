@@ -1,7 +1,7 @@
 import { getDb } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-const ADMIN_KEY = "falso9admin2026";
+const ADMIN_KEY = "YHLQMDLGyMESSI853$";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
