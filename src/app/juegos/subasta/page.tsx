@@ -172,7 +172,6 @@ export default function SubastaPage() {
 
         <GameLeaderboard game="subasta" currentScore={remaining} />
 
-        <GameLeaderboard game="subasta" currentScore={remaining} />
       </div>
     );
   }
