@@ -3,7 +3,8 @@ import bcrypt from "bcryptjs";
 import { getDb } from "./db";
 import { cookies } from "next/headers";
 
-const JWT_SECRET = process.env.JWT_SECRET || "falso9-secret-change-in-production";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error("JWT_SECRET environment variable is required");
 const TOKEN_NAME = "falso9_token";
 
 export interface User {

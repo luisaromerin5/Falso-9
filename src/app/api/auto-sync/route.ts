@@ -2,7 +2,12 @@ import { getDb } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 // Auto-sync: syncs today's and yesterday's matches if not done in last 15 minutes
-export async function GET() {
+export async function GET(request: Request) {
+  // Allow cron-job.org and internal calls
+  const { searchParams } = new URL(request.url);
+  const token = searchParams.get("token");
+  if (token && token !== "f9sync2026") return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+
   const apiKey = process.env.API_FOOTBALL_KEY;
   if (!apiKey) return NextResponse.json({ skipped: true, reason: "no API key" });
 
