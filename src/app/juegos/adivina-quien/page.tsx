@@ -138,7 +138,10 @@ export default function AdivinaQuienPage() {
     setGuessInput("");
   };
 
-  if (alreadyPlayed) return <AlreadyPlayed game="adivina-quien" score={0} title="Adivina Quién" />;
+  if (alreadyPlayed) {
+    const savedScore = typeof window !== "undefined" ? Number(localStorage.getItem("adivina_today_score") || 0) : 0;
+    return <AlreadyPlayed game="adivina-quien" score={savedScore} title="Adivina Quién" />;
+  }
 
   if (!secretPlayer) return null;
 

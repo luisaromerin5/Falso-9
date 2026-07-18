@@ -51,6 +51,7 @@ export default function StopPage() {
     if (timerRef.current) clearTimeout(timerRef.current);
     setGameState("done");
     localStorage.setItem("stop_last_date", new Date().toISOString().split("T")[0]);
+    localStorage.setItem("stop_today_score", String(correctCount * 10));
 
     // Validate all answers
     const newResults: Record<string, boolean> = {};
@@ -64,7 +65,10 @@ export default function StopPage() {
   const correctCount = results ? Object.values(results).filter(Boolean).length : 0;
   const allCorrect = correctCount === 8;
 
-  if (alreadyPlayed) return <AlreadyPlayed game="stop" score={0} title="Stop / Basta" />;
+  if (alreadyPlayed) {
+    const savedScore = typeof window !== "undefined" ? Number(localStorage.getItem("stop_today_score") || 0) : 0;
+    return <AlreadyPlayed game="stop" score={savedScore} title="Stop / Basta" />;
+  }
 
   // Ready screen
   if (gameState === "ready") {

@@ -54,6 +54,7 @@ export default function RoscoPage() {
     if (timerRef.current) clearTimeout(timerRef.current);
     setGameState("done");
     localStorage.setItem("rosco_last_date", new Date().toISOString().split("T")[0]);
+    localStorage.setItem("rosco_today_score", String(correctCount * 10));
   };
 
   const findNextPending = (from: number): number => {
@@ -108,7 +109,10 @@ export default function RoscoPage() {
   const correctCount = Array.from(states.values()).filter((s) => s === "correct").length;
   const wrongCount = Array.from(states.values()).filter((s) => s === "wrong").length;
 
-  if (alreadyPlayed) return <AlreadyPlayed game="rosco" score={0} title="Rosco" />;
+  if (alreadyPlayed) {
+    const savedScore = typeof window !== "undefined" ? Number(localStorage.getItem("rosco_today_score") || 0) : 0;
+    return <AlreadyPlayed game="rosco" score={savedScore} title="Rosco" />;
+  }
 
   if (questions.length === 0) return null;
 

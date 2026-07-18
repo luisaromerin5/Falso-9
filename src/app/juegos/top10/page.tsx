@@ -29,7 +29,10 @@ export default function Top10Page() {
     }
   }, []);
 
-  if (alreadyPlayed) return <AlreadyPlayed game="top10" score={score} title="Top 10" />;
+  if (alreadyPlayed) {
+    const savedScore = typeof window !== "undefined" ? Number(localStorage.getItem("top10_today_score") || 0) : 0;
+    return <AlreadyPlayed game="top10" score={savedScore} title="Top 10" />;
+  }
 
   if (!topic) return null;
 
