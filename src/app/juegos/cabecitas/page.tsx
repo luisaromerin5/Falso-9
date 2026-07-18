@@ -101,9 +101,7 @@ export default function CabecitasPage() {
       if (b.y > H + 50) {
         game.running = false;
         setGameOver(true);
-        // Save to localStorage
-        localStorage.setItem("cabecitas_last_date", new Date().toISOString().split("T")[0]);
-        localStorage.setItem("cabecitas_today_score", String(game.score));
+
         return;
       }
 
@@ -166,24 +164,7 @@ export default function CabecitasPage() {
     };
   }, [gameStarted, gameOver]);
 
-  // Already played today check
-  const alreadyPlayed = typeof window !== "undefined" && localStorage.getItem("cabecitas_last_date") === new Date().toISOString().split("T")[0];
 
-  if (alreadyPlayed && !gameStarted) {
-    const savedScore = typeof window !== "undefined" ? Number(localStorage.getItem("cabecitas_today_score") || 0) : 0;
-    return (
-      <div className="py-4">
-        <Link href="/juegos" className="text-orange-400 text-sm mb-4 inline-block">← Juegos</Link>
-        <h1 className="text-lg font-bold text-white mb-4">Cabecitas</h1>
-        <div className="bg-gray-800 rounded-xl p-6 border border-orange-500/50 mb-4 text-center">
-          <p className="text-xl font-bold text-white mb-1">Ya jugaste hoy</p>
-          <p className="text-3xl font-black text-orange-400 mb-2">{savedScore} cabecitas</p>
-          <p className="text-xs text-gray-400">Vuelve mañana para intentar superarte</p>
-        </div>
-        <GameLeaderboard game="cabecitas" />
-      </div>
-    );
-  }
 
   if (gameOver) {
     return (
@@ -195,6 +176,12 @@ export default function CabecitasPage() {
           <p className="text-3xl font-black text-orange-400 mb-2">{score} cabecitas</p>
         </div>
         <GameLeaderboard game="cabecitas" currentScore={score * 10} />
+        <button
+          onClick={() => { setGameOver(false); setScore(0); setGameStarted(true); }}
+          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-sm"
+        >
+          Jugar de nuevo
+        </button>
       </div>
     );
   }
