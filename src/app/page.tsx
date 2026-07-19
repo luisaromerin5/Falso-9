@@ -184,12 +184,16 @@ export default function Home() {
             {friendsActivity.slice(0, 3).map((item: any) => (
               <Link key={item.id} href={`/partido/${item.partido_id}`}>
                 <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 flex items-center gap-2.5 hover:border-gray-600 mb-2">
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white flex-shrink-0"
-                    style={{ background: item.avatar_color }}
-                  >
-                    {item.usuario.charAt(0).toUpperCase()}
-                  </div>
+                  {item.avatar_url ? (
+                    <img src={item.avatar_url} alt="" className="w-6 h-6 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white flex-shrink-0"
+                      style={{ background: item.avatar_color }}
+                    >
+                      {item.usuario.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className="text-[11px] text-gray-300 truncate">
                       <span className="text-white font-medium">@{item.usuario}</span> calificó
