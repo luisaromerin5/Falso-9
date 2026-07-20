@@ -126,7 +126,7 @@ export default function Home() {
       });
 
       setPopular(topLeagueMatches.slice(0, 15));
-      setRecent(allMatches.slice(0, 15));
+      setRecent(topLeagueMatches.length > 0 ? topLeagueMatches.slice(0, 20) : allMatches.slice(0, 20));
       setTopRated(ranked.slice(0, 15));
       if (Array.isArray(dest)) setDestacados(dest);
       if (feed && Array.isArray(feed)) setFriendsActivity(feed.slice(0, 10));
@@ -156,13 +156,6 @@ export default function Home() {
         <span className="text-sm font-medium text-orange-400 border-b-2 border-orange-400 pb-1">Partidos</span>
         <Link href="/ranking" className="text-sm text-gray-400 hover:text-white">Top Reviews</Link>
       </div>
-
-      {/* Popular this week */}
-      <HorizontalScroll title="Popular esta semana" seeAllHref="/partidos?cat=popular">
-        {popular.map((p) => (
-          <PartidoPoster key={p.id} partido={p} />
-        ))}
-      </HorizontalScroll>
 
       {/* Destacados - clasicos, finales, goleadas */}
       {destacados.length > 0 && (
