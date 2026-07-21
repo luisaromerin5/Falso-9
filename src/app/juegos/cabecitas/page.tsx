@@ -60,9 +60,36 @@ export default function CabecitasPage() {
     const loop = () => {
       if (!game.running) return;
 
-      // Clear
-      ctx.fillStyle = "#1a1a2e";
-      ctx.fillRect(0, 0, W, H);
+      // Clear - football field background
+      // Sky
+      ctx.fillStyle = "#1a3a5c";
+      ctx.fillRect(0, 0, W, H * 0.4);
+      // Grass gradient
+      const grassGradient = ctx.createLinearGradient(0, H * 0.4, 0, H);
+      grassGradient.addColorStop(0, "#2d8a4e");
+      grassGradient.addColorStop(0.5, "#24793f");
+      grassGradient.addColorStop(1, "#1c6633");
+      ctx.fillStyle = grassGradient;
+      ctx.fillRect(0, H * 0.4, W, H * 0.6);
+      // Field lines
+      ctx.strokeStyle = "rgba(255,255,255,0.2)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, H * 0.4);
+      ctx.lineTo(W, H * 0.4);
+      ctx.stroke();
+      // Center circle
+      ctx.beginPath();
+      ctx.arc(W / 2, H * 0.7, 60, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(255,255,255,0.15)";
+      ctx.stroke();
+      // Grass stripes
+      for (let i = 0; i < 8; i++) {
+        if (i % 2 === 0) {
+          ctx.fillStyle = "rgba(255,255,255,0.03)";
+          ctx.fillRect(0, H * 0.4 + i * (H * 0.6 / 8), W, H * 0.6 / 8);
+        }
+      }
 
       // Player movement
       const p = game.player;
@@ -122,34 +149,31 @@ export default function CabecitasPage() {
         ctx.fill();
       }
 
-      // Draw ball
+      // Draw ball - realistic football
       ctx.beginPath();
       ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
       ctx.fillStyle = "#fff";
       ctx.fill();
       ctx.strokeStyle = "#333";
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
-      // Pentagon pattern
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, b.r * 0.5, 0, Math.PI * 2);
-      ctx.strokeStyle = "#555";
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      // Pentagon patches
+      const patchAngles = [0, 72, 144, 216, 288];
+      for (const angle of patchAngles) {
+        const rad = (angle * Math.PI) / 180;
+        const px = b.x + Math.cos(rad) * b.r * 0.55;
+        const py = b.y + Math.sin(rad) * b.r * 0.55;
+        ctx.beginPath();
+        ctx.arc(px, py, b.r * 0.25, 0, Math.PI * 2);
+        ctx.fillStyle = "#222";
+        ctx.fill();
+      }
 
       // Draw score
       ctx.fillStyle = "#fff";
       ctx.font = "bold 24px sans-serif";
       ctx.textAlign = "center";
       ctx.fillText(String(game.score), W / 2, 40);
-
-      // Draw ground line
-      ctx.strokeStyle = "#4ade80";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(0, H - 10);
-      ctx.lineTo(W, H - 10);
-      ctx.stroke();
 
       animId = requestAnimationFrame(loop);
     };
