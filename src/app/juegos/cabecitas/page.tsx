@@ -111,7 +111,7 @@ export default function CabecitasPage() {
 
       // Draw player (custom character image)
       if (playerImg.complete) {
-        ctx.drawImage(playerImg, p.x - 30, p.y - 55, 60, 80);
+        ctx.drawImage(playerImg, p.x - 45, p.y - 75, 90, 120);
       } else {
         // Fallback while loading
         ctx.fillStyle = "#f97316";
