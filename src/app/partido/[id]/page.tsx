@@ -214,6 +214,36 @@ function EditableReview({ review, onUpdate }: { review: any; onUpdate: () => voi
   );
 }
 
+function LikeButton({ calificacionId }: { calificacionId: number }) {
+  const { user } = useAuth();
+  const [liked, setLiked] = useState(false);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    fetch(`/api/likes?partido_id=${calificacionId}`)
+      .then(() => {});
+  }, []);
+
+  const toggleLike = async () => {
+    if (!user) return;
+    const res = await fetch("/api/likes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ calificacion_id: calificacionId }),
+    });
+    const data = await res.json();
+    setLiked(data.liked);
+    setCount((prev) => data.liked ? prev + 1 : Math.max(0, prev - 1));
+  };
+
+  return (
+    <button onClick={toggleLike} className={`flex items-center gap-1 mt-1 text-[10px] ${liked ? "text-red-400" : "text-gray-500"}`}>
+      <span>{liked ? "❤️" : "🤍"}</span>
+      {count > 0 && <span>{count}</span>}
+    </button>
+  );
+}
+
 function ReplySection({ calificacionId }: { calificacionId: number }) {
   const { user } = useAuth();
   const [replies, setReplies] = useState<any[]>([]);
@@ -541,6 +571,7 @@ export default function PartidoDetallePage() {
                     <span>🎯 {cal.calidad}/10</span>
                     <span>👨‍⚖️ {cal.arbitraje}/10</span>
                   </div>
+                  <LikeButton calificacionId={cal.id} />
                   {user && cal.usuario === user.username && (
                     <EditableReview review={cal} onUpdate={fetchPartido} />
                   )}
