@@ -20,8 +20,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Check if user already skipped before (session storage)
-    const skipped = sessionStorage.getItem("falso9_skipped");
+    // Check if user already skipped before (localStorage = permanent)
+    const skipped = localStorage.getItem("falso9_skipped");
     if (skipped) {
       setShowWelcome(false);
     }
@@ -43,6 +43,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <WelcomeScreen
         onSkip={() => {
           sessionStorage.setItem("falso9_skipped", "true");
+          localStorage.setItem("falso9_skipped", "true");
           setShowWelcome(false);
         }}
       />
