@@ -6,6 +6,7 @@ import GameLeaderboard from "@/components/GameLeaderboard";
 
 export default function CabecitasPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ballImgRef = useRef<HTMLImageElement | null>(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
@@ -32,6 +33,11 @@ export default function CabecitasPage() {
     // Preload player image
     const playerImg = new Image();
     playerImg.src = "/cabecitas-player.png";
+
+    // Preload ball image
+    const ballImg = new Image();
+    ballImg.src = "/cabecitas-ball.png";
+    ballImgRef.current = ballImg;
 
     // Controls
     const keys: Record<string, boolean> = {};
@@ -149,23 +155,14 @@ export default function CabecitasPage() {
         ctx.fill();
       }
 
-      // Draw ball - realistic football
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-      ctx.fillStyle = "#fff";
-      ctx.fill();
-      ctx.strokeStyle = "#333";
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      // Pentagon patches
-      const patchAngles = [0, 72, 144, 216, 288];
-      for (const angle of patchAngles) {
-        const rad = (angle * Math.PI) / 180;
-        const px = b.x + Math.cos(rad) * b.r * 0.55;
-        const py = b.y + Math.sin(rad) * b.r * 0.55;
+      // Draw ball - custom image
+      const ballImg = ballImgRef.current;
+      if (ballImg && ballImg.complete) {
+        ctx.drawImage(ballImg, b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+      } else {
         ctx.beginPath();
-        ctx.arc(px, py, b.r * 0.25, 0, Math.PI * 2);
-        ctx.fillStyle = "#222";
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fillStyle = "#fff";
         ctx.fill();
       }
 
