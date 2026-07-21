@@ -4,6 +4,30 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/AuthContext";
 
+function FeedLikeButton({ calificacionId }: { calificacionId: number }) {
+  const [liked, setLiked] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const toggleLike = async () => {
+    const res = await fetch("/api/likes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ calificacion_id: calificacionId }),
+    });
+    const data = await res.json();
+    setLiked(data.liked);
+    setCount((prev) => data.liked ? prev + 1 : Math.max(0, prev - 1));
+  };
+
+  return (
+    <button onClick={toggleLike} className={`flex items-center gap-1 mt-2 text-xs ${liked ? "text-red-400" : "text-gray-500"}`}>
+      <span>{liked ? "❤️" : "🤍"}</span>
+      {count > 0 && <span>{count}</span>}
+      <span className="text-[10px]">Me gusta</span>
+    </button>
+  );
+}
+
 interface FeedItem {
   id: number;
   partido_id: number;
@@ -276,11 +300,8 @@ export default function AmigosPage() {
                   {item.comentario && (
                     <p className="text-sm text-gray-300 leading-relaxed">{item.comentario}</p>
                   )}
+                  <FeedLikeButton calificacionId={item.id} />
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
       )}
       {/* Compañeros tab */}
       {activeTab === "compañeros" && (
