@@ -25,7 +25,7 @@ export default function CabecitasPage() {
     // Game state
     const game = gameRef.current;
     game.player = { x: W / 2, y: H - 60, w: 50, h: 50, speed: 0 };
-    game.ball = { x: W / 2, y: 100, r: 18, vx: 1.5, vy: 0, gravity: 0.3 };
+    game.ball = { x: W / 2, y: 100, r: 18, vx: 2, vy: 0, gravity: 0.45 };
     game.score = 0;
     game.running = true;
 
@@ -111,7 +111,7 @@ export default function CabecitasPage() {
 
       // Draw player (custom character image)
       if (playerImg.complete) {
-        ctx.drawImage(playerImg, p.x - 55, p.y - 75, 110, 120);
+        ctx.drawImage(playerImg, p.x - 25, p.y - 60, 50, 75);
       } else {
         // Fallback while loading
         ctx.fillStyle = "#f97316";
