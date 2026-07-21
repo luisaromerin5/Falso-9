@@ -211,13 +211,7 @@ export default function Home() {
       </HorizontalScroll>
 
       {/* Top rated / Friends rated */}
-      <HorizontalScroll
-        title={user && friendsActivity.length > 0 ? "Calificados por compañeros" : "Mejor calificados"}
-      >
-        {topRated.map((p) => (
-          <PartidoPoster key={p.id} partido={p} />
-        ))}
-      </HorizontalScroll>
+
 
       {/* Recent reviews preview */}
       <section className="mb-6">
