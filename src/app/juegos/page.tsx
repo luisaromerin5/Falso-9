@@ -28,12 +28,6 @@ const GAMES = [
     available: true,
   },
   {
-    id: "stop",
-    name: "Stop / Basta",
-    description: "Llena las categorías con una letra al azar",
-    available: true,
-  },
-  {
     id: "subasta",
     name: "Subasta",
     description: "Arma tu equipo de 11 con presupuesto limitado",
