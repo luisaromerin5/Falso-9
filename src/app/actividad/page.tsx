@@ -302,6 +302,10 @@ export default function AmigosPage() {
                   )}
                   <FeedLikeButton calificacionId={item.id} />
                 </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
       {/* Compañeros tab */}
       {activeTab === "compañeros" && (
