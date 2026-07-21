@@ -29,6 +29,10 @@ export default function CabecitasPage() {
     game.score = 0;
     game.running = true;
 
+    // Preload player image
+    const playerImg = new Image();
+    playerImg.src = "/cabecitas-player.png";
+
     // Controls
     const keys: Record<string, boolean> = {};
     let touchX: number | null = null;
@@ -105,19 +109,18 @@ export default function CabecitasPage() {
         return;
       }
 
-      // Draw player (simple figure)
-      ctx.fillStyle = "#f97316";
-      // Body
-      ctx.fillRect(p.x - 10, p.y - 10, 20, 35);
-      // Head
-      ctx.beginPath();
-      ctx.arc(p.x, p.y - 25, 15, 0, Math.PI * 2);
-      ctx.fillStyle = "#fbbf24";
-      ctx.fill();
-      // Eyes
-      ctx.fillStyle = "#000";
-      ctx.fillRect(p.x - 5, p.y - 28, 3, 3);
-      ctx.fillRect(p.x + 3, p.y - 28, 3, 3);
+      // Draw player (custom character image)
+      if (playerImg.complete) {
+        ctx.drawImage(playerImg, p.x - 30, p.y - 55, 60, 80);
+      } else {
+        // Fallback while loading
+        ctx.fillStyle = "#f97316";
+        ctx.fillRect(p.x - 10, p.y - 10, 20, 35);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y - 25, 15, 0, Math.PI * 2);
+        ctx.fillStyle = "#fbbf24";
+        ctx.fill();
+      }
 
       // Draw ball
       ctx.beginPath();
