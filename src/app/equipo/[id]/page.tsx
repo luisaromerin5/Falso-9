@@ -5,6 +5,36 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getTeamTrophies } from "@/lib/trophies";
 
+function FollowTeamButton({ equipoId }: { equipoId: number }) {
+  const [following, setFollowing] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/favoritos")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.favorites) {
+          setFollowing(data.favorites.some((f: any) => f.id === equipoId));
+        }
+      })
+      .catch(() => {});
+  }, [equipoId]);
+
+  const toggle = async () => {
+    await fetch("/api/favoritos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: following ? "remove" : "add", equipo_id: equipoId }),
+    });
+    setFollowing(!following);
+  };
+
+  return (
+    <button onClick={toggle} className={`text-xs px-3 py-1.5 rounded-lg font-medium flex-shrink-0 ${following ? "bg-orange-900/30 text-orange-400 border border-orange-700/50" : "bg-orange-500 text-white"}`}>
+      {following ? "★ Siguiendo" : "☆ Seguir"}
+    </button>
+  );
+}
+
 interface TeamData {
   equipo: { id: number; nombre: string; logo_url: string; pais: string };
   stats: {
@@ -69,6 +99,7 @@ export default function EquipoDetallePage() {
               <p className="text-[10px] text-gray-500">Fundado en {data.apiTeam.founded}</p>
             )}
           </div>
+          <FollowTeamButton equipoId={Number(id)} />
         </div>
 
         {/* Venue */}

@@ -162,5 +162,6 @@ function initializeDb(db: Database.Database) {
   try { db.exec("CREATE TABLE IF NOT EXISTS solicitudes_companero (id INTEGER PRIMARY KEY AUTOINCREMENT, from_id INTEGER NOT NULL, to_id INTEGER NOT NULL, status TEXT DEFAULT 'pending', created_at TEXT DEFAULT (datetime('now')), UNIQUE(from_id, to_id))"); } catch {}
   try { db.exec("CREATE TABLE IF NOT EXISTS respuestas (id INTEGER PRIMARY KEY AUTOINCREMENT, calificacion_id INTEGER NOT NULL, usuario_id INTEGER NOT NULL, usuario TEXT NOT NULL, mensaje TEXT NOT NULL, created_at TEXT DEFAULT (datetime('now')), FOREIGN KEY (calificacion_id) REFERENCES calificaciones(id), FOREIGN KEY (usuario_id) REFERENCES usuarios(id))"); } catch {}
   try { db.exec("CREATE TABLE IF NOT EXISTS likes (id INTEGER PRIMARY KEY AUTOINCREMENT, calificacion_id INTEGER NOT NULL, usuario_id INTEGER NOT NULL, created_at TEXT DEFAULT (datetime('now')), UNIQUE(calificacion_id, usuario_id))"); } catch {}
+  try { db.exec("CREATE TABLE IF NOT EXISTS equipos_favoritos (id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_id INTEGER NOT NULL, equipo_id INTEGER NOT NULL, created_at TEXT DEFAULT (datetime('now')), UNIQUE(usuario_id, equipo_id))"); } catch {}
 }
 

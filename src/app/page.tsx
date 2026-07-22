@@ -84,6 +84,7 @@ export default function Home() {
   const [recent, setRecent] = useState<Partido[]>([]);
   const [topRated, setTopRated] = useState<Partido[]>([]);
   const [destacados, setDestacados] = useState<any[]>([]);
+  const [favoritos, setFavoritos] = useState<any[]>([]);
   const [friendsActivity, setFriendsActivity] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -98,9 +99,10 @@ export default function Home() {
 
     if (user) {
       promises.push(fetch("/api/feed").then((r) => r.json()));
+      promises.push(fetch("/api/favoritos").then((r) => r.json()));
     }
 
-    Promise.all(promises).then(([allMatches, ranked, dest, feed]) => {
+    Promise.all(promises).then(([allMatches, ranked, dest, feed, favData]) => {
       // Top leagues for "Popular esta semana" - exact first division professional football
       const topLeagues = new Set([
         "La Liga",
@@ -130,6 +132,7 @@ export default function Home() {
       setTopRated(ranked.slice(0, 15));
       if (Array.isArray(dest)) setDestacados(dest);
       if (feed && Array.isArray(feed)) setFriendsActivity(feed.slice(0, 10));
+      if (favData && favData.matches) setFavoritos(favData.matches);
       setLoading(false);
     });
   }, [user, authLoading]);
@@ -161,6 +164,15 @@ export default function Home() {
       {destacados.length > 0 && (
         <HorizontalScroll title="Partidos Destacados">
           {destacados.map((p: any) => (
+            <PartidoPoster key={p.id} partido={p} />
+          ))}
+        </HorizontalScroll>
+      )}
+
+      {/* Favoritos - matches from followed teams */}
+      {user && favoritos.length > 0 && (
+        <HorizontalScroll title="Mis equipos favoritos">
+          {favoritos.map((p: any) => (
             <PartidoPoster key={p.id} partido={p} />
           ))}
         </HorizontalScroll>
