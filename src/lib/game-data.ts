@@ -48,7 +48,7 @@ export const PLAYERS: GamePlayer[] = [
   { id: 36, name: "Raphinha", club: "Barcelona", nationality: "Brazil", position: "Forward", marketValue: 70 , photo: "https://media.api-sports.io/football/players/6641.png" },
   { id: 37, name: "Antonio Rüdiger", club: "Real Madrid", nationality: "Germany", position: "Defender", marketValue: 30 , photo: "https://media.api-sports.io/football/players/2285.png" },
   { id: 38, name: "Achraf Hakimi", club: "PSG", nationality: "Morocco", position: "Defender", marketValue: 65 , photo: "https://media.api-sports.io/football/players/2430.png" },
-  { id: 39, name: "Trent Alexander-Arnold", club: "Liverpool", nationality: "England", position: "Defender", marketValue: 70 , photo: "https://media.api-sports.io/football/players/1098.png" },
+  { id: 39, name: "Trent Alexander-Arnold", club: "Liverpool", nationality: "England", position: "Defender", marketValue: 70 , photo: "https://media.api-sports.io/football/players/283.png" },
   { id: 40, name: "Marc-André ter Stegen", club: "Barcelona", nationality: "Germany", position: "Goalkeeper", marketValue: 25 , photo: "https://media.api-sports.io/football/players/162.png" },
   { id: 41, name: "Julián Álvarez", club: "Atlético Madrid", nationality: "Argentina", position: "Forward", marketValue: 80 , photo: "https://media.api-sports.io/football/players/46973.png" },
   { id: 42, name: "Aurélien Tchouaméni", club: "Real Madrid", nationality: "France", position: "Midfielder", marketValue: 80 , photo: "https://media.api-sports.io/football/players/36832.png" },
@@ -81,7 +81,7 @@ export const PLAYERS: GamePlayer[] = [
   { id: 67, name: "Emiliano Martínez", club: "Aston Villa", nationality: "Argentina", position: "Goalkeeper", marketValue: 30 , photo: "https://media.api-sports.io/football/players/19599.png" },
   // More Midfielders
   { id: 68, name: "Enzo Fernández", club: "Chelsea", nationality: "Argentina", position: "Midfielder", marketValue: 70 , photo: "https://media.api-sports.io/football/players/5996.png" },
-  { id: 69, name: "Alexis Mac Allister", club: "Liverpool", nationality: "Argentina", position: "Midfielder", marketValue: 65 , photo: "https://media.api-sports.io/football/players/46879.png" },
+  { id: 69, name: "Alexis Mac Allister", club: "Liverpool", nationality: "Argentina", position: "Midfielder", marketValue: 65 , photo: "https://media.api-sports.io/football/players/6716.png" },
   { id: 70, name: "Luka Modric", club: "Real Madrid", nationality: "Croatia", position: "Midfielder", marketValue: 10 , photo: "https://media.api-sports.io/football/players/753.png" },
   { id: 71, name: "Eduardo Camavinga", club: "Real Madrid", nationality: "France", position: "Midfielder", marketValue: 80 , photo: "https://media.api-sports.io/football/players/2207.png" },
   { id: 72, name: "Vitinha", club: "PSG", nationality: "Portugal", position: "Midfielder", marketValue: 70 , photo: "https://media.api-sports.io/football/players/129090.png" },
