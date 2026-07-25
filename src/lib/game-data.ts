@@ -61,7 +61,7 @@ export const PLAYERS: GamePlayer[] = [
   { id: 48, name: "Theo Hernández", club: "AC Milan", nationality: "France", position: "Defender", marketValue: 55 , photo: "https://media.api-sports.io/football/players/15799.png" },
   { id: 49, name: "Jules Koundé", club: "Barcelona", nationality: "France", position: "Defender", marketValue: 60 , photo: "https://media.api-sports.io/football/players/16124.png" },
   { id: 50, name: "Marquinhos", club: "PSG", nationality: "Brazil", position: "Defender", marketValue: 50 , photo: "https://media.api-sports.io/football/players/1783.png" },
-  { id: 51, name: "Eder Militão", club: "Real Madrid", nationality: "Brazil", position: "Defender", marketValue: 60 , photo: "https://media.api-sports.io/football/players/10009.png" },
+  { id: 51, name: "Eder Militão", club: "Real Madrid", nationality: "Brazil", position: "Defender", marketValue: 60 , photo: "https://media.api-sports.io/football/players/372.png" },
   { id: 52, name: "Josko Gvardiol", club: "Manchester City", nationality: "Croatia", position: "Defender", marketValue: 75 , photo: "https://media.api-sports.io/football/players/153079.png" },
   { id: 53, name: "Ronald Araújo", club: "Barcelona", nationality: "Uruguay", position: "Defender", marketValue: 55 , photo: "https://media.api-sports.io/football/players/101814.png" },
   { id: 54, name: "Dayot Upamecano", club: "Bayern Munich", nationality: "France", position: "Defender", marketValue: 45 , photo: "https://media.api-sports.io/football/players/1149.png" },
